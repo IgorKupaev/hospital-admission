@@ -1,0 +1,86 @@
+.form {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 40px 40px 60px 40px;
+  min-height: 473px;
+}
+.formTitle {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 42px;
+  color: #000000;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.fetch {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-width: 148px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all .2s ease;
+  &:hover {
+    background: #f8f8f8;
+  }
+}
+.changeAuth {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+@media (max-width: 920px) {
+  .formTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 42px;
+    color: #000000;
+  }
+  .form {
+    padding: 15px 15px 22.5px 15px;
+    min-height: 336.5px;
+  }
+  .fetch {
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .changeAuth {
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}

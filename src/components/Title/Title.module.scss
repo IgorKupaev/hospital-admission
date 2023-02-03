@@ -1,0 +1,74 @@
+.title {
+  width: 100%;
+  background: #C5E9FF;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 15px 0;
+  margin-bottom: 35px;
+}
+.titleContainer {
+  margin: 0 auto;
+  max-width: 1140px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+.titlePicture {
+  margin-right: 75px;
+  pointer-events: none;
+}
+.titleBody {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.bodyText {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 42px;
+}
+.bodyButton {
+  padding: 8px 42px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-family: 'Roboto';
+  font-style: normal;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 28px;
+
+  &:hover {
+    background: #f8f8f8;
+  }
+}
+
+@media (max-width: 920px) {
+  .bodyText {
+    font-size: 24px;
+    line-height: 42px;
+  }
+  .bodyButton {
+    padding: 8px 22px;
+  }
+  .titlePicture {
+    margin-right: 45px;
+    & >* {
+      height: 40px;
+    }
+  }
+}
+@media (max-width: 640px) {
+  .bodyText {
+    font-size: 16px;
+  }
+  .bodyButton {
+    padding: 0px 15px;
+    font-size: 16px;
+  }
+  .titlePicture {
+    margin-right: 15px;
+  }
+}
