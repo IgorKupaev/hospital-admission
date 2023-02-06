@@ -1,0 +1,71 @@
+.menu {
+  width: 100%;
+  background: #C5E9FF;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 15px 0;
+  margin-bottom: 35px;
+  margin-top: -25px;
+}
+.menuContainer {
+  margin: 0 auto;
+  max-width: 1140px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+.disabled {
+  button {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    background: #FFFFFF;
+    opacity: 0.6;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 12px 24px;
+    transition: none;
+    cursor: not-allowed;
+    &:hover {
+      background-color: auto;
+    }
+  }
+}
+.menuInput {
+  display: flex;
+  flex-direction: column;
+  span {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    margin-bottom: 5px;
+  }
+  input {
+    padding: 10px 20px;
+  }
+}
+.menuButton {
+  button {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 12px 24px;
+    transition: all .2s ease;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+}
