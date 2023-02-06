@@ -42,9 +42,9 @@ export const loginSlice = createSlice({
     }
   },
   extraReducers: {
-    [authLogin.fulfilled.type]: (state, action: PayloadAction<ILoginResponse>) => {
+    [authLogin.fulfilled.type]: (state, action: PayloadAction<any>) => {
       state.isLoading = false;
-      state.error = '';
+      state.error = action.payload;
       state.user = action.payload.user;
       state.token = action.payload.token;
     },

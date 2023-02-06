@@ -21,8 +21,8 @@ export const authLogin = createAsyncThunk(
       const response = await axios.post<ILoginResponse>('http://localhost:8000/login', body.data);
       localStorage.setItem('token', response.data.token);
       return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue('User not found');
+    } catch (error: any) {
+      return error.response.data;
     }
   }
 );
