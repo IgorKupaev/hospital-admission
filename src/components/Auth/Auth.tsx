@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react';
-import AuthForm, { AuthType } from '../AuthForm/AuthForm';
+import AuthForm from '../AuthForm/AuthForm';
+import { AuthType } from '../../models/AuthType';
 import HospitalImage from './../../assets/images/Hospital.svg';
 import styles from './Auth.module.scss';
 
 interface IAuthProps {
   setTitleBody: (value: string) => void
-  setUpdate?: (value: boolean) => void
 }
 
-const Auth: FC<IAuthProps> = ({ setTitleBody, setUpdate }): JSX.Element => {
+const Auth: FC<IAuthProps> = ({ setTitleBody }): JSX.Element => {
+  const [renderType, setRenderType] = useState<AuthType>(AuthType.register);
   return (
     <div className={styles.auth}>
       <div className={styles.authContainer}>
         <div className={styles.authImage}>
           <img src={HospitalImage} alt="hospital" />
         </div>
-        <AuthForm setUpdate={setUpdate} setTitleBody={setTitleBody} type={AuthType.register} />
+        <AuthForm setTitleBody={setTitleBody} renderType={renderType} setRenderType={setRenderType} />
       </div>
     </div>
   );

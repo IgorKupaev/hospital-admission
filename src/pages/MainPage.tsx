@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import CreateMenu from '../components/CreateMenu/CreateMenu';
 import Modal from '../components/Modal/Modal';
 import type { IAdmission } from '../models/IAdmission';
-import FormInput from '../components/AuthFormInput.tsx/FormInput';
+import FormInput from '../components/FormInput/FormInput';
 
 const MainPage = (): JSX.Element => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
