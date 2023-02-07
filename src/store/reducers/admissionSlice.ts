@@ -1,13 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getAdmissions } from './actionCreators';
+import { editAdmissions, getAdmissions } from './actionCreators';
 import type { IAdmission } from '../../models/IAdmission';
-
-export interface IAdmissionsState {
-  admissions: IAdmission[]
-  isLoading: boolean
-  error: string
-}
+import type { IAdmissionsState } from '../../models/IAdmissionsState';
 
 const initialState: IAdmissionsState = {
   admissions: [],
@@ -38,6 +33,18 @@ export const admissionSlice = createSlice({
       state.isLoading = true;
     },
     [getAdmissions.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [editAdmissions.fulfilled.type]: (state, action: PayloadAction<IAdmission[]>) => {
+      state.isLoading = false;
+      state.error = '';
+      state.admissions = action.payload;
+    },
+    [editAdmissions.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [editAdmissions.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     }

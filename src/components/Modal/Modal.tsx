@@ -1,17 +1,10 @@
 import React from 'react';
 import type { FC } from 'react';
 import styles from './Modal.module.scss';
-
-export interface IModalProps {
-  children: JSX.Element
-  title: string
-  buttonSettings: [text: string, callBack: () => void]
-  isOpened: boolean
-  setIsOpened: (value: boolean) => void
-}
+import type { IModalProps } from '../../models/propTypes/IModalProps';
 
 const Modal: FC<IModalProps> = (props): JSX.Element => {
-  const { children, title, buttonSettings, isOpened, setIsOpened } = props;
+  const { children, title, buttonSettings, isOpened, setIsOpened, isDisabled } = props;
   const closeModal = (): void => {
     setIsOpened(false);
   };
@@ -30,7 +23,13 @@ const Modal: FC<IModalProps> = (props): JSX.Element => {
         </div>
         <div className={styles.modalButtons}>
           <button onClick={closeModal} className="modalButton">Отмена</button>
-          <button onClick={buttonHandler} className="modalButton">{buttonSettings[0]}</button>
+          <button
+            disabled={typeof isDisabled === 'boolean' ? isDisabled : false}
+            onClick={buttonHandler}
+            className="modalButton"
+          >
+            {buttonSettings[0]}
+          </button>
         </div>
       </div>
     </div>

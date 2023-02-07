@@ -1,17 +1,9 @@
 import React from 'react';
-import type { IAdmission } from '../../models/IAdmission';
 import type { FC } from 'react';
 import styles from './AdmissionsList.module.scss';
 import remove from './../../assets/images/remove.svg';
 import edit from './../../assets/images/edit.svg';
-
-interface IAdmissionsListProps {
-  admissions: IAdmission[]
-  setIsOpened: (value: boolean) => void
-  setChangeId: (value: string) => void
-  setIsChangeOpened: (value: boolean) => void
-  prepareChangeModal: (value: string) => void
-}
+import type { IAdmissionsListProps } from '../../models/propTypes/IAdmissionsListProps';
 
 const AdmissionsList: FC<IAdmissionsListProps> = ({ admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal }): JSX.Element => {
   const removeHandler = async (body: any): Promise<any> => {

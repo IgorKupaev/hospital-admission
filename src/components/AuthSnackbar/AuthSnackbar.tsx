@@ -2,12 +2,7 @@ import { Alert, Snackbar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import type { FC } from 'react';
-
-export interface IAuthSnackbar {
-  AuthType: any
-  renderType: any
-  setRenderType: (value: any) => void
-}
+import type { IAuthSnackbar } from '../../models/IAuthSnackbar';
 
 const AuthSnackbar: FC<IAuthSnackbar> = ({ AuthType, setRenderType, renderType }): JSX.Element => {
   const message = useAppSelector(state => state.regReducer.regStatus);

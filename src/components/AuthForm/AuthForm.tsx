@@ -7,12 +7,12 @@ import { authUser } from '../../store/reducers/loginSlice';
 import { useInput } from '../../hooks/useInput';
 import { useErrors } from '../../hooks/useErrors';
 import type { IAuthFormProps } from '../../models/IAuthFormProps';
-import type { IUseErrors } from '../../hooks/useErrors';
 import type { FC } from 'react';
 import AuthSnackbar from '../AuthSnackbar/AuthSnackbar';
 import { AuthType } from '../../models/AuthType';
 import FormErrors from '../FormErrors/FormErrors';
 import { useAuthRender } from '../../hooks/useAuthRender';
+import type { IUseErrors } from '../../models/IUseErrors';
 
 const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType }): JSX.Element => {
   const renderChangeHandler = (): void => {
