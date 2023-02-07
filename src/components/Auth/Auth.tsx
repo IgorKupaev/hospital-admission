@@ -4,10 +4,7 @@ import AuthForm from '../AuthForm/AuthForm';
 import { AuthType } from '../../models/AuthType';
 import HospitalImage from './../../assets/images/Hospital.svg';
 import styles from './Auth.module.scss';
-
-interface IAuthProps {
-  setTitleBody: (value: string) => void
-}
+import type { IAuthProps } from '../../models/propTypes/IAuthProps';
 
 const Auth: FC<IAuthProps> = ({ setTitleBody }): JSX.Element => {
   const [renderType, setRenderType] = useState<AuthType>(AuthType.register);

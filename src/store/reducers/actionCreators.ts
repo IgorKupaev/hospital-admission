@@ -51,3 +51,32 @@ export const getAdmissions = createAsyncThunk(
     }
   }
 );
+
+export const editAdmissions = createAsyncThunk(
+  'edit/admission',
+  async (body: AxiosRequestConfig<any>) => {
+    try {
+      const edit = await axios.patch<IAdmission>('http://localhost:8000/admission', body.data);
+      if (edit.status === 200) {
+        const response = await axios.get<IAdmission[]>('http://localhost:8000/admissions');
+        localStorage.setItem('admissions', JSON.stringify(response.data));
+        return response.data;
+      };
+      return edit.data;
+    } catch (error: any) {
+      return error.response.data;
+    }
+  }
+);
+
+export const removeAdmission = createAsyncThunk(
+  'remove/admission',
+  async (body: AxiosRequestConfig<any>) => {
+    try {
+      const response = await axios.delete('http://localhost:8000/admission', { data: body });
+      return response.data;
+    } catch (error: any) {
+      return error.response.data;
+    }
+  }
+);

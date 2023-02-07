@@ -1,14 +1,7 @@
 import React from 'react';
 import type { FC } from 'react';
 import styles from './FormInput.module.scss';
-
-interface IFormInputProps {
-  body: string
-  value?: any
-  onChange?: (e: any) => void
-  onBlur?: (e: any) => void
-  type?: string
-}
+import type { IFormInputProps } from '../../models/propTypes/IFormInputProps';
 
 const FormInput: FC<IFormInputProps> = ({ body, ...props }): JSX.Element => {
   return (

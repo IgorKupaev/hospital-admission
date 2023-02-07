@@ -5,11 +5,7 @@ import styles from './Title.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../store/reducers/loginSlice';
 import { clearAdmissions } from '../../store/reducers/admissionSlice';
-
-interface ITitleProps {
-  body: string
-  showExit: boolean
-}
+import type { ITitleProps } from '../../models/propTypes/ITitleProps';
 
 const Title: FC<ITitleProps> = ({ body, showExit }): JSX.Element => {
   const navigate = useNavigate();

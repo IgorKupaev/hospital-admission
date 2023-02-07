@@ -4,4 +4,5 @@ export interface IModalProps {
   buttonSettings: [text: string, callBack: () => void]
   isOpened: boolean
   setIsOpened: (value: boolean) => void
+  isDisabled?: boolean
 };

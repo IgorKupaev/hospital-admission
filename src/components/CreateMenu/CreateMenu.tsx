@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import type { IAdmission } from '../../models/IAdmission';
 import styles from './CreateMenu.module.scss';
 import axios from 'axios';
 import { createAdmission } from '../../store/reducers/admissionSlice';
 import { useAppDispatch } from '../../hooks/redux';
-
-export interface ICreateMenuProps {
-  ads: IAdmission[]
-  setAds: (value: IAdmission[]) => void
-};
+import type { ICreateMenuProps } from '../../models/propTypes/ICreateMenuProps';
 
 const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
   const [newAdmission, setNewAdmission] = useState({ pacient: '', doctor: '', date: '', complaint: '' });

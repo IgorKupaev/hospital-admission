@@ -1,14 +1,9 @@
 import React from 'react';
 import type { FC } from 'react';
 import { useErrors } from '../../hooks/useErrors';
-import type { IUseErrorsProps, IUseErrors } from '../../hooks/useErrors';
+import type { IUseErrors } from '../../models/IUseErrors';
 import styles from './FormErrors.module.scss';
-
-export interface IFormErrorsProps {
-  password: IUseErrorsProps
-  login: IUseErrorsProps
-  confirmError: boolean
-}
+import type { IFormErrorsProps } from '../../models/propTypes/IFormErrorsProps';
 
 const FormErrors: FC<IFormErrorsProps> = ({ password, login, confirmError }): JSX.Element => {
   const { loginLength, passwordEmpty, latinAndDigit, passwordLength, loginEmpty }: IUseErrors = useErrors(password, login);
