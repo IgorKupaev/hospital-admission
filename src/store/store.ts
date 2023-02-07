@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import loginReducer from './reducers/loginSlice';
 import regReducer from './reducers/registerSlice';
 import admissionReducer from './reducers/admissionSlice';
+import sortReducer from './reducers/sortSlice';
 
 const rootReducer = combineReducers({
   loginReducer,
   regReducer,
-  admissionReducer
+  admissionReducer,
+  sortReducer
 });
 
 export const setupStore = (): any => {

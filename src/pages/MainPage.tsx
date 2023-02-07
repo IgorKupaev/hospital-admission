@@ -9,12 +9,14 @@ import Modal from '../components/Modal/Modal';
 import type { IAdmission } from '../models/IAdmission';
 import ChangeModal from '../components/ChangeModal/ChangeModal';
 import { useAuthRouting } from '../hooks/useAuthRouting';
+import SortMenu from '../components/SortMenu/SortMenu';
 
 const MainPage = (): JSX.Element => {
   const [isRemoveOpened, setIsRemoveOpened] = useState<boolean>(false);
   const [isChangeOpened, setIsChangeOpened] = useState<boolean>(false);
   const [changeId, setChangeId] = useState<any>({ _id: '' });
   const [changeForms, setChangeForms] = useState<IAdmission>({ _id: '', pacient: '', doctor: '', date: '', complaint: '' });
+
   const adsRedux = useAppSelector(state => state.admissionReducer.admissions);
   const [ads, setAds] = useState(adsRedux);
   useEffect(() => {
@@ -62,6 +64,7 @@ const MainPage = (): JSX.Element => {
     <div style={{ width: '100%' }}>
       <Title body='Приемы' showExit />
       <CreateMenu ads={ads} setAds={setAds} />
+      <SortMenu />
       <AdmissionsList
         prepareChangeModal={prepareChangeModal}
         setIsChangeOpened={setIsChangeOpened}
