@@ -1,0 +1,34 @@
+.sort {
+  width: 100%;
+}
+.hidden {
+  display: none;
+}
+.sortContainer {
+  max-width: 1140px;
+  margin: 0 auto 25px auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+.sortText {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  margin: 0 18px;
+}
+.select {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+}
