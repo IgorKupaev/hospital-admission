@@ -17,8 +17,6 @@ export const filterSlice = createSlice({
       state.from = initialState.from;
       state.to = initialState.to;
     }
-  },
-  extraReducers: {
   }
 });
 

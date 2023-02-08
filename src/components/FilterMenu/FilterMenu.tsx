@@ -5,11 +5,7 @@ import remove from './../../assets/images/remove.svg';
 import { useAppDispatch } from '../../hooks/redux';
 import { changeFilter, clearFilter } from '../../store/reducers/filterSlice';
 import type { IFilterOptions } from '../../models/IFilterOptions';
-
-export interface IFilterMenuProps {
-  isFilterHidden: boolean
-  setIsFilterHidden: (value: boolean) => void
-}
+import type { IFilterMenuProps } from '../../models/propTypes/IFilterMenuProps';
 
 const FilterMenu: FC<IFilterMenuProps> = ({ isFilterHidden, setIsFilterHidden }): JSX.Element => {
   const [filter, setFilter] = useState<IFilterOptions>({ from: '', to: '' });
