@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import styles from './SortMenu.module.scss';
 import { changeSort } from '../../store/reducers/sortSlice';
 import { useAppDispatch } from '../../hooks/redux';
-
-export interface ISortMenu {
-  sort: string
-  direction: string
-}
+import type { ISortMenu } from '../../models/ISortMenu';
 
 const SortMenu = (): JSX.Element => {
   const dispatch = useAppDispatch();

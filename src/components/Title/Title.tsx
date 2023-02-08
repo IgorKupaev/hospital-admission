@@ -6,14 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../store/reducers/loginSlice';
 import { clearAdmissions } from '../../store/reducers/admissionSlice';
 import type { ITitleProps } from '../../models/propTypes/ITitleProps';
+import { useAppDispatch } from '../../hooks/redux';
 
 const Title: FC<ITitleProps> = ({ body, showExit }): JSX.Element => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logout = (): void => {
     localStorage.setItem('token', '');
-    logoutUser();
+    dispatch(logoutUser());
     navigate('/auth');
-    clearAdmissions();
+    dispatch(clearAdmissions());
     localStorage.setItem('admissions', '');
   };
   return (

@@ -19,18 +19,19 @@ export const registerSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {},
-  extraReducers: {
-    [authReg.fulfilled.type]: (state, action: PayloadAction<IRegResponse>) => {
-      state.isLoading = false;
-      state.regStatus = String(action.payload);
-    },
-    [authReg.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [authReg.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(authReg.fulfilled, (state, action: PayloadAction<IRegResponse>) => {
+        state.isLoading = false;
+        state.regStatus = String(action.payload);
+      })
+      .addCase(authReg.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(authReg.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
 

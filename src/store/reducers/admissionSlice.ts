@@ -23,31 +23,32 @@ export const admissionSlice = createSlice({
       localStorage.setItem('admissions', JSON.stringify(state.admissions));
     }
   },
-  extraReducers: {
-    [getAdmissions.fulfilled.type]: (state, action: PayloadAction<IAdmission[]>) => {
-      state.isLoading = false;
-      state.error = '';
-      state.admissions = action.payload;
-    },
-    [getAdmissions.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [getAdmissions.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    [editAdmissions.fulfilled.type]: (state, action: PayloadAction<IAdmission[]>) => {
-      state.isLoading = false;
-      state.error = '';
-      state.admissions = action.payload;
-    },
-    [editAdmissions.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [editAdmissions.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAdmissions.fulfilled, (state, action: PayloadAction<IAdmission[]>) => {
+        state.isLoading = false;
+        state.error = '';
+        state.admissions = action.payload;
+      })
+      .addCase(getAdmissions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAdmissions.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(editAdmissions.fulfilled, (state, action: PayloadAction<IAdmission[]>) => {
+        state.isLoading = false;
+        state.error = '';
+        state.admissions = action.payload;
+      })
+      .addCase(editAdmissions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editAdmissions.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
 

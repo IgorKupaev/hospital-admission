@@ -13,8 +13,6 @@ export const sortSlice = createSlice({
       state.sort = action.payload.sort;
       state.direction = action.payload.direction;
     }
-  },
-  extraReducers: {
   }
 });
 
