@@ -1,0 +1,27 @@
+.container {
+  max-width: 1140px;
+  margin: 0 auto 25px auto;
+  padding: 0 15px;
+  display: flex;
+}
+.openFilter {
+  margin-left: 10px;
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  span {
+    margin-right: 10px;
+  }
+  img {
+    cursor: pointer;
+  }
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+}
+.hidden {
+  display: none;
+}

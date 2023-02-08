@@ -13,7 +13,6 @@ const AuthPage = (): JSX.Element => {
     if (token !== '') {
       navigate('/');
     }
-    console.log('token: ', token);
   }, [token]);
   return (
     <>

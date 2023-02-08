@@ -3,12 +3,14 @@ import loginReducer from './reducers/loginSlice';
 import regReducer from './reducers/registerSlice';
 import admissionReducer from './reducers/admissionSlice';
 import sortReducer from './reducers/sortSlice';
+import filterReducer from './reducers/filterSlice';
 
 const rootReducer = combineReducers({
   loginReducer,
   regReducer,
   admissionReducer,
-  sortReducer
+  sortReducer,
+  filterReducer
 });
 
 export const setupStore = (): any => {

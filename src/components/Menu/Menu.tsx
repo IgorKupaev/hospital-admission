@@ -1,0 +1,30 @@
+import React from 'react';
+import CreateMenu from '../CreateMenu/CreateMenu';
+import FilterMenu from '../FilterMenu/FilterMenu';
+import SortMenu from '../SortMenu/SortMenu';
+import type { FC } from 'react';
+import addPicture from '../../assets/images/add.svg';
+import styles from './Menu.module.scss';
+import type { IMenuProps } from '../../models/propTypes/IMenuProps';
+
+const Menu: FC<IMenuProps> = ({ ads, setAds, isFilterHidden, setIsFilterHidden }): JSX.Element => {
+  return (
+    <div>
+      <CreateMenu ads={ads} setAds={setAds} />
+      <div className={styles.container}>
+        <SortMenu />
+        <div className={isFilterHidden ? styles.openFilter : styles.hidden}>
+          <span>
+            Добавить фильтр по дате:
+          </span>
+          <div onClick={() => { setIsFilterHidden(false); }}>
+            <img src={addPicture} alt="add" />
+          </div>
+        </div>
+      </div>
+      <FilterMenu isFilterHidden={isFilterHidden} setIsFilterHidden={setIsFilterHidden} />
+    </div>
+  );
+};
+
+export default Menu;
