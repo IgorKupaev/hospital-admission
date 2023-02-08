@@ -4,18 +4,18 @@ import AdmissionsList from '../components/AdmissionsList/AdmissionsList';
 import Title from '../components/Title/Title';
 import { getAdmissions, removeAdmission } from '../store/reducers/actionCreators';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import CreateMenu from '../components/CreateMenu/CreateMenu';
 import Modal from '../components/Modal/Modal';
 import type { IAdmission } from '../models/IAdmission';
 import ChangeModal from '../components/ChangeModal/ChangeModal';
 import { useAuthRouting } from '../hooks/useAuthRouting';
-import SortMenu from '../components/SortMenu/SortMenu';
+import Menu from '../components/Menu/Menu';
 
 const MainPage = (): JSX.Element => {
   const [isRemoveOpened, setIsRemoveOpened] = useState<boolean>(false);
   const [isChangeOpened, setIsChangeOpened] = useState<boolean>(false);
   const [changeId, setChangeId] = useState<any>({ _id: '' });
   const [changeForms, setChangeForms] = useState<IAdmission>({ _id: '', pacient: '', doctor: '', date: '', complaint: '' });
+  const [isFilterHidden, setIsFilterHidden] = useState<boolean>(true);
 
   const adsRedux = useAppSelector(state => state.admissionReducer.admissions);
   const [ads, setAds] = useState(adsRedux);
@@ -63,8 +63,7 @@ const MainPage = (): JSX.Element => {
   return (
     <div style={{ width: '100%' }}>
       <Title body='Приемы' showExit />
-      <CreateMenu ads={ads} setAds={setAds} />
-      <SortMenu />
+      <Menu ads={ads} setAds={setAds} isFilterHidden={isFilterHidden} setIsFilterHidden={setIsFilterHidden} />
       <AdmissionsList
         prepareChangeModal={prepareChangeModal}
         setIsChangeOpened={setIsChangeOpened}
