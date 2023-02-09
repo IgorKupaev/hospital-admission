@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import type { IUser } from '../../models/IUser';
+import type { IUser } from '../../interfaces/IUser';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { IAdmission } from '../../models/IAdmission';
+import type { IAdmission } from '../../interfaces/IAdmission';
 
 export interface ILoginResponse {
   token: string

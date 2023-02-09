@@ -1,3 +1,4 @@
+@import './../../utilities/vars.scss';
 .filter {
   width: 100%;
 }
@@ -24,11 +25,7 @@
     padding: 10px 20px;
     margin-right: 14px;
     cursor: pointer;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 21px;
+    @extend %default-font;
     color: #000000;
   }
   &:not(:first-child) {

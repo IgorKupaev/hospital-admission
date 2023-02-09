@@ -1,5 +1,5 @@
 export interface IFormInputProps {
-  body: string
+  title: string
   value?: any
   onChange?: (e: any) => void
   onBlur?: (e: any) => void

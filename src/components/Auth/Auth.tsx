@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import type { FC } from 'react';
+
 import AuthForm from '../AuthForm/AuthForm';
-import { AuthType } from '../../models/AuthType';
+import { AuthType } from '../../interfaces/AuthType';
 import HospitalImage from './../../assets/images/Hospital.svg';
+
 import styles from './Auth.module.scss';
-import type { IAuthProps } from '../../models/propTypes/IAuthProps';
+
+import type { FC } from 'react';
+import type { IAuthProps } from '../../interfaces/propTypes/IAuthProps';
 
 const Auth: FC<IAuthProps> = ({ setTitleBody }): JSX.Element => {
   const [renderType, setRenderType] = useState<AuthType>(AuthType.register);

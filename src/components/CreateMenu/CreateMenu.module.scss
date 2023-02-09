@@ -1,3 +1,4 @@
+@import '../../utilities/vars.scss';
 .menu {
   width: 100%;
   background: #C5E9FF;
@@ -16,11 +17,7 @@
 }
 .disabled {
   button {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 21px;
+    @extend %default-font;
     color: #000000;
     background: #FFFFFF;
     opacity: 0.6;
@@ -38,11 +35,7 @@
   display: flex;
   flex-direction: column;
   span {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 21px;
+    @extend %default-font;
     color: #000000;
     margin-bottom: 5px;
   }
@@ -52,11 +45,7 @@
 }
 .menuButton {
   button {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 21px;
+    @extend %default-font;
     color: #000000;
     background: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.2);

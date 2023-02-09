@@ -1,60 +1,47 @@
 import React from 'react';
-import type { FC } from 'react';
-import styles from './AdmissionsList.module.scss';
-import remove from './../../assets/images/remove.svg';
-import edit from './../../assets/images/edit.svg';
-import type { IAdmissionsListProps } from '../../models/propTypes/IAdmissionsListProps';
+
 import { useSort } from '../../hooks/useSort';
-import type { IAdmission } from '../../models/IAdmission';
 import { useFilter } from '../../hooks/useFilter';
+
+import styles from './AdmissionsList.module.scss';
+
+import type { FC } from 'react';
+import type { IAdmission } from '../../interfaces/IAdmission';
+import type { IAdmissionsListProps } from '../../interfaces/propTypes/IAdmissionsListProps';
+import ListItem from '../ListItem/ListItem';
 
 const AdmissionsList: FC<IAdmissionsListProps> = (props): JSX.Element => {
   const { admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal } = props;
-  const removeHandler = async (body: any): Promise<any> => {
-    setIsOpened(true);
-    setChangeId(body);
+
+  const admissionsHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    const target = e.target as HTMLElement;
+    let action, id;
+    if (target.id !== '') {
+      id = target.id;
+      action = target.lastElementChild?.attributes[1].nodeValue;
+      if (action === 'edit') {
+        prepareChangeModal({ _id: id });
+        setIsChangeOpened(true);
+      } else if (action === 'remove') {
+        setIsOpened(true);
+        setChangeId({ _id: id });
+      }
+    }
   };
-  const changeHandler = (id: any): void => {
-    prepareChangeModal(id);
-    setIsChangeOpened(true);
-  };
+
   const sorted: IAdmission[] = useSort(admissions);
   const filteredAndSorted: IAdmission[] = useFilter(sorted);
 
   return (
-    <div className={styles.admissionsContainer}>
+    <div onClick={admissionsHandler} className={styles.admissionsContainer}>
       <div className={styles.admissionsTitle}>
         <span>Имя</span>
         <span>Врач</span>
         <span>Дата</span>
         <span>Жалобы</span>
       </div>
-      {filteredAndSorted.map(item => {
-        return (
-          <div className={styles.admissions} key={item._id}>
-            <div className={styles.pacient}><span>{item.pacient}</span></div>
-            <div className={styles.doctor}><span>{item.doctor}</span></div>
-            <div className={styles.date}><span>{item.date}</span></div>
-            <div className={styles.complaint}><span>{item.complaint}</span></div>
-            <div className={styles.buttons}>
-              <span
-                id={item._id}
-                onClick={e => { void removeHandler({ _id: e.currentTarget.id }); }}
-                className={styles.remove}
-              >
-                <img src={remove} alt="" />
-              </span>
-              <span
-                id={item._id}
-                onClick={ e => { changeHandler({ _id: e.currentTarget.id }); } }
-                className={styles.edit}
-              >
-                <img src={edit} alt="" />
-              </span>
-            </div>
-          </div>
-        );
-      })}
+      {filteredAndSorted
+        .map(item => <ListItem key={item._id} item={item} />)}
     </div>
   );
 };

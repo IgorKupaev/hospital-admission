@@ -1,11 +1,14 @@
 import React from 'react';
+
 import CreateMenu from '../CreateMenu/CreateMenu';
 import FilterMenu from '../FilterMenu/FilterMenu';
 import SortMenu from '../SortMenu/SortMenu';
-import type { FC } from 'react';
 import addPicture from '../../assets/images/add.svg';
+
 import styles from './Menu.module.scss';
-import type { IMenuProps } from '../../models/propTypes/IMenuProps';
+
+import type { IMenuProps } from '../../interfaces/propTypes/IMenuProps';
+import type { FC } from 'react';
 
 const Menu: FC<IMenuProps> = ({ ads, setAds, isFilterHidden, setIsFilterHidden }): JSX.Element => {
   return (

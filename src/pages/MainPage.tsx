@@ -1,14 +1,16 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import AdmissionsList from '../components/AdmissionsList/AdmissionsList';
-import Title from '../components/Title/Title';
+import axios from 'axios';
+
 import { getAdmissions, removeAdmission } from '../store/reducers/actionCreators';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import Modal from '../components/Modal/Modal';
-import type { IAdmission } from '../models/IAdmission';
-import ChangeModal from '../components/ChangeModal/ChangeModal';
 import { useAuthRouting } from '../hooks/useAuthRouting';
+import AdmissionsList from '../components/AdmissionsList/AdmissionsList';
+import Title from '../components/Title/Title';
+import Modal from '../components/Modal/Modal';
+import ChangeModal from '../components/ChangeModal/ChangeModal';
 import Menu from '../components/Menu/Menu';
+
+import type { IAdmission } from '../interfaces/IAdmission';
 
 const MainPage = (): JSX.Element => {
   const [isRemoveOpened, setIsRemoveOpened] = useState<boolean>(false);

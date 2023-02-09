@@ -1,14 +1,15 @@
-import { Alert, Snackbar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
+import { Alert, Snackbar } from '@mui/material';
 import { useAppSelector } from '../../hooks/redux';
+
 import type { FC } from 'react';
-import type { IAuthSnackbar } from '../../models/IAuthSnackbar';
+import type { IAuthSnackbar } from '../../interfaces/IAuthSnackbar';
 
 const AuthSnackbar: FC<IAuthSnackbar> = ({ AuthType, setRenderType, renderType }): JSX.Element => {
-  const message = useAppSelector(state => state.regReducer.regStatus);
-  const logMessage = useAppSelector(state => state.loginReducer.error);
-  const isLoadingReg = useAppSelector(state => state.regReducer.isLoading);
-  const isLoadingLogin = useAppSelector(state => state.loginReducer.isLoading);
+  const { regStatus: message, isLoading: isLoadingReg } = useAppSelector(state => state.regReducer);
+  const { error: logMessage, isLoading: isLoadingLogin } = useAppSelector(state => state.loginReducer);
+
   const [isInfoOpened, setIsInfoOpened] = useState(false);
   const [customMessage, setCustomMessage] = useState('');
 

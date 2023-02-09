@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { editAdmissions, getAdmissions } from './actionCreators';
-import type { IAdmission } from '../../models/IAdmission';
-import type { IAdmissionsState } from '../../models/IAdmissionsState';
+import type { IAdmission } from '../../interfaces/IAdmission';
+import type { IAdmissionsState } from '../../interfaces/IAdmissionsState';
 
 const initialState: IAdmissionsState = {
   admissions: [],

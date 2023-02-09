@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import type { FC } from 'react';
-import styles from './FilterMenu.module.scss';
+
 import remove from './../../assets/images/remove.svg';
 import { useAppDispatch } from '../../hooks/redux';
 import { changeFilter, clearFilter } from '../../store/reducers/filterSlice';
-import type { IFilterOptions } from '../../models/IFilterOptions';
-import type { IFilterMenuProps } from '../../models/propTypes/IFilterMenuProps';
+
+import styles from './FilterMenu.module.scss';
+
+import type { FC } from 'react';
+import type { IFilterOptions } from '../../interfaces/IFilterOptions';
+import type { IFilterMenuProps } from '../../interfaces/propTypes/IFilterMenuProps';
 
 const FilterMenu: FC<IFilterMenuProps> = ({ isFilterHidden, setIsFilterHidden }): JSX.Element => {
   const [filter, setFilter] = useState<IFilterOptions>({ from: '', to: '' });

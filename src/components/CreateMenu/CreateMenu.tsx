@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
-import styles from './CreateMenu.module.scss';
 import axios from 'axios';
+
 import { createAdmission } from '../../store/reducers/admissionSlice';
 import { useAppDispatch } from '../../hooks/redux';
-import type { ICreateMenuProps } from '../../models/propTypes/ICreateMenuProps';
+
+import styles from './CreateMenu.module.scss';
+
+import type { ICreateMenuProps } from '../../interfaces/propTypes/ICreateMenuProps';
+import type { FC } from 'react';
 
 const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
-  const [newAdmission, setNewAdmission] = useState({ pacient: '', doctor: '', date: '', complaint: '' });
+  const initialState = { pacient: '', doctor: '', date: '', complaint: '' };
+  const [newAdmission, setNewAdmission] = useState(initialState);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
@@ -39,7 +43,7 @@ const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
     });
     if (typeof fetchedAdmission !== 'string') {
       setAds([...ads, fetchedAdmission]);
-      setNewAdmission({ pacient: '', doctor: '', date: '', complaint: '' });
+      setNewAdmission(initialState);
     }
   };
 

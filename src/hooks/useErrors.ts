@@ -1,5 +1,5 @@
-import type { IUseErrors } from '../models/IUseErrors';
-import type { IUseErrorsProps } from '../models/propTypes/IUseErrorsProps';
+import type { IUseErrors } from '../interfaces/IUseErrors';
+import type { IUseErrorsProps } from '../interfaces/propTypes/IUseErrorsProps';
 
 export const useErrors = (password: IUseErrorsProps, login: IUseErrorsProps): IUseErrors => {
   const loginLength: boolean = (login.isDirty && login.minLengthError);

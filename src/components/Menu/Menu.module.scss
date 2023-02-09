@@ -1,6 +1,7 @@
+@import './../../utilities/vars.scss'; 
 .container {
   max-width: 1140px;
-  margin: 0 auto 25px auto;
+  margin: 0 auto 25px;
   padding: 0 15px;
   display: flex;
 }
@@ -15,11 +16,7 @@
   img {
     cursor: pointer;
   }
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 21px;
+  @extend %default-font;
   color: #000000;
 }
 .hidden {

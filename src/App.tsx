@@ -1,9 +1,12 @@
 import React from 'react';
-import type { FC } from 'react';
-import './App.scss';
-import AuthPage from './pages/AuthPage';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
+
+import './App.scss';
+
+import type { FC } from 'react';
 
 const App: FC = (): JSX.Element => {
   return (

@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import AuthFormInput from '../FormInput/FormInput';
-import styles from './AuthForm.module.scss';
+
 import { useAppDispatch, useAppSelector } from './../../hooks/redux';
+import AuthFormInput from '../FormInput/FormInput';
+import AuthSnackbar from '../AuthSnackbar/AuthSnackbar';
+import FormErrors from '../FormErrors/FormErrors';
 import { authLogin, authReg } from '../../store/reducers/actionCreators';
 import { authUser } from '../../store/reducers/loginSlice';
 import { useInput } from '../../hooks/useInput';
 import { useErrors } from '../../hooks/useErrors';
-import type { IAuthFormProps } from '../../models/IAuthFormProps';
-import type { FC } from 'react';
-import AuthSnackbar from '../AuthSnackbar/AuthSnackbar';
-import { AuthType } from '../../models/AuthType';
-import FormErrors from '../FormErrors/FormErrors';
+import { AuthType } from '../../interfaces/AuthType';
 import { useAuthRender } from '../../hooks/useAuthRender';
-import type { IUseErrors } from '../../models/IUseErrors';
+
+import styles from './AuthForm.module.scss';
+
+import type { IAuthFormProps } from '../../interfaces/IAuthFormProps';
+import type { FC } from 'react';
+import type { IUseErrors } from '../../interfaces/IUseErrors';
 
 const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType }): JSX.Element => {
-  const renderChangeHandler = (): void => {
+  const handleRenderChange = (): void => {
     setRenderType(renderType === 'register' ? AuthType.login : AuthType.register);
     setTitleBody(renderType === 'register' ? 'Войти в систему' : 'Зарегистрироваться в системе');
   };
@@ -38,7 +41,8 @@ const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType 
 
   const authFetch = (): void => {
     if (renderType === 'login') {
-      if (password.isDirty === true && password.isEmpty === false && password.containsDigitAndLatin === false) {
+      console.log('login started');
+      if (password.isDirty && !password.isEmpty && !password.containsDigitAndLatin) {
         dispatch(authLogin({ data: { password: password.value, login: login.value } }));
         setIsAuthorized(!isAuthorized);
       }
@@ -61,14 +65,14 @@ const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType 
         {title}
       </h2>
       <div className={styles.inputs}>
-        <AuthFormInput onBlur={e => { login.onBlur(e); }} onChange={e => { login.onChange(e.target.value); }} value={login.value} body='Логин' />
-        <AuthFormInput onBlur={e => { password.onBlur(e); }} onChange={e => { password.onChange(e.target.value); }} value={password.value} body='Пароль' />
+        <AuthFormInput onBlur={e => { login.onBlur(e); }} onChange={e => { login.onChange(e.target.value); }} value={login.value} title='Логин' />
+        <AuthFormInput onBlur={e => { password.onBlur(e); }} onChange={e => { password.onChange(e.target.value); }} value={password.value} title='Пароль' />
         {regInput}
         <FormErrors confirmError={confirmError} password={password} login={login} />
       </div>
       <div className={styles.buttons}>
         <button disabled={isDisabled() && !confirmError} onClick={authFetch} className={styles.fetch}>{button}</button>
-        <button onClick={renderChangeHandler} className={styles.changeAuth}>{changeAuth}</button>
+        <button onClick={handleRenderChange} className={styles.changeAuth}>{changeAuth}</button>
       </div>
     </div>
   );

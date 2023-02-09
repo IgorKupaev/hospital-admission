@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
+
 import Modal from '../Modal/Modal';
 import ChangeForms from '../ChangeForms/ChangeForms';
 import { useAppDispatch } from '../../hooks/redux';
 import { editAdmissions } from '../../store/reducers/actionCreators';
-import type { IChangeModalProps } from '../../models/propTypes/IChangeModalProps';
+
+import type { IChangeModalProps } from '../../interfaces/propTypes/IChangeModalProps';
+import type { FC } from 'react';
 
 const ChangeModal: FC<IChangeModalProps> = (props): JSX.Element => {
   const { isChangeOpened, setIsChangeOpened, changeForms, setChangeForms } = props;

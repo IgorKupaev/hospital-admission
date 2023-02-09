@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { authReg } from './actionCreators';
 import type { IRegResponse } from './actionCreators';
-import type { IRegState } from '../../models/IRegState';
+import type { IRegState } from '../../interfaces/IRegState';
 
 const initialState: IRegState = {
   user: {

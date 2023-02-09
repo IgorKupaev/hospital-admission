@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { authLogin } from './actionCreators';
 import type { ILoginResponse } from './actionCreators';
-import type { ILoginState } from '../../models/ILoginState';
+import type { ILoginState } from '../../interfaces/ILoginState';
 
 const initialState: ILoginState = {
   user: {

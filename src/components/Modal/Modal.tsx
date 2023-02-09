@@ -1,7 +1,9 @@
 import React from 'react';
-import type { FC } from 'react';
+
 import styles from './Modal.module.scss';
-import type { IModalProps } from '../../models/propTypes/IModalProps';
+
+import type { IModalProps } from '../../interfaces/propTypes/IModalProps';
+import type { FC } from 'react';
 
 const Modal: FC<IModalProps> = (props): JSX.Element => {
   const { children, title, buttonSettings, isOpened, setIsOpened, isDisabled } = props;

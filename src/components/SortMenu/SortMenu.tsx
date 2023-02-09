@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import styles from './SortMenu.module.scss';
+
 import { changeSort } from '../../store/reducers/sortSlice';
 import { useAppDispatch } from '../../hooks/redux';
-import type { ISortMenu } from '../../models/ISortMenu';
+
+import styles from './SortMenu.module.scss';
+
+import type { ISortMenu } from '../../interfaces/ISortMenu';
 
 const SortMenu = (): JSX.Element => {
   const dispatch = useAppDispatch();
