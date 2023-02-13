@@ -1,8 +1,8 @@
 export interface IUseInput {
   value: string
   isDirty: boolean
-  onChange: (value: any) => void
-  onBlur: (value: any) => void
+  onChange: (value: string) => void
+  onBlur: (value: string) => void
   isEmpty: boolean
   minLengthError: boolean
   containsDigitAndLatin: boolean

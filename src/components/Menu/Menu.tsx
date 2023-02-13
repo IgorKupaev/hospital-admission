@@ -11,6 +11,9 @@ import type { IMenuProps } from '../../interfaces/propTypes/IMenuProps';
 import type { FC } from 'react';
 
 const Menu: FC<IMenuProps> = ({ ads, setAds, isFilterHidden, setIsFilterHidden }): JSX.Element => {
+  const addHandler = (): void => {
+    setIsFilterHidden(false);
+  };
   return (
     <div>
       <CreateMenu ads={ads} setAds={setAds} />
@@ -20,7 +23,7 @@ const Menu: FC<IMenuProps> = ({ ads, setAds, isFilterHidden, setIsFilterHidden }
           <span>
             Добавить фильтр по дате:
           </span>
-          <div onClick={() => { setIsFilterHidden(false); }}>
+          <div onClick={addHandler}>
             <img src={addPicture} alt="add" />
           </div>
         </div>

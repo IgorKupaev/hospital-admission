@@ -1,5 +1,6 @@
+import type { AuthEnum } from './AuthEnum';
+
 export interface IAuthSnackbar {
-  AuthType: any
-  renderType: any
-  setRenderType: (value: any) => void
+  renderType: AuthEnum
+  setRenderType: (value: AuthEnum) => void
 };

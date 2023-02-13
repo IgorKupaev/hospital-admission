@@ -8,22 +8,17 @@ import { editAdmissions } from '../../store/reducers/actionCreators';
 import type { IChangeModalProps } from '../../interfaces/propTypes/IChangeModalProps';
 import type { FC } from 'react';
 
-const ChangeModal: FC<IChangeModalProps> = (props): JSX.Element => {
-  const { isChangeOpened, setIsChangeOpened, changeForms, setChangeForms } = props;
+const ChangeModal: FC<IChangeModalProps> = ({ isChangeOpened, setIsChangeOpened, changeForms, setChangeForms }): JSX.Element => {
   const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    let status = true;
+    setIsDisabled(false);
     for (const value of Object.values(changeForms)) {
       if (value.length < 6) {
-        status = false;
+        setIsDisabled(true);
+        break;
       }
-    };
-    if (status) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
     };
   }, [changeForms]);
 

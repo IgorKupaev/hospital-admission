@@ -1,4 +1,6 @@
+import type { IAdmission } from '../IAdmission';
+
 export interface IChangeFormsProps {
-  changeForms: any
-  setChangeForms: (val: any) => void
+  changeForms: IAdmission
+  setChangeForms: (val: IAdmission) => void
 };

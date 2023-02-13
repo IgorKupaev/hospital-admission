@@ -8,6 +8,7 @@ import styles from './CreateMenu.module.scss';
 
 import type { ICreateMenuProps } from '../../interfaces/propTypes/ICreateMenuProps';
 import type { FC } from 'react';
+import CreateMenuInputs from '../CreateMenuInputs/CreateMenuInputs';
 
 const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
   const initialState = { pacient: '', doctor: '', date: '', complaint: '' };
@@ -33,7 +34,7 @@ const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
     };
   }, [newAdmission.complaint, newAdmission.date, newAdmission.doctor, newAdmission.pacient]);
 
-  const createHandler = (): any => {
+  const createHandler = (): void => {
     let fetchedAdmission = { ...newAdmission, _id: '' };
     createNewAdmission().then(res => {
       fetchedAdmission = res.data;
@@ -46,42 +47,10 @@ const CreateMenu: FC<ICreateMenuProps> = ({ ads, setAds }): JSX.Element => {
       setNewAdmission(initialState);
     }
   };
-
   return (
     <div className={styles.menu}>
       <div className={styles.menuContainer}>
-        <div className={styles.menuInput}>
-          <span>Имя: </span>
-          <input
-            value={newAdmission.pacient}
-            onChange={e => { setNewAdmission({ ...newAdmission, pacient: e.target.value }); }}
-            type="text"
-          />
-        </div>
-        <div className={styles.menuInput}>
-          <span>Врач: </span>
-          <input
-            value={newAdmission.doctor}
-            onChange={e => { setNewAdmission({ ...newAdmission, doctor: e.target.value }); }}
-            type="text"
-          />
-        </div>
-        <div className={styles.menuInput}>
-          <span>Дата: </span>
-          <input
-            value={newAdmission.date}
-            onChange={e => { setNewAdmission({ ...newAdmission, date: e.target.value }); }}
-            type="date"
-          />
-        </div>
-        <div className={styles.menuInput}>
-          <span>Жалобы: </span>
-          <input
-            value={newAdmission.complaint}
-            onChange={e => { setNewAdmission({ ...newAdmission, complaint: e.target.value }); }}
-            type="text"
-          />
-        </div>
+        <CreateMenuInputs newAdmission={newAdmission} setNewAdmission={setNewAdmission} />
         <div className={isDisabled ? styles.disabled : styles.menuButton}>
           <button disabled={isDisabled} onClick={createHandler}>
             Добавить

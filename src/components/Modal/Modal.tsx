@@ -3,10 +3,9 @@ import React from 'react';
 import styles from './Modal.module.scss';
 
 import type { IModalProps } from '../../interfaces/propTypes/IModalProps';
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 
-const Modal: FC<IModalProps> = (props): JSX.Element => {
-  const { children, title, buttonSettings, isOpened, setIsOpened, isDisabled } = props;
+const Modal: FC<IModalProps> = ({ children, title, buttonSettings, isOpened, setIsOpened, isDisabled }): JSX.Element => {
   const closeModal = (): void => {
     setIsOpened(false);
   };
@@ -14,9 +13,12 @@ const Modal: FC<IModalProps> = (props): JSX.Element => {
     buttonSettings[1]();
     setIsOpened(false);
   };
+  const stopPropogationHandler = (e: MouseEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
+  };
   return (
     <div onClick={closeModal} className={isOpened ? styles.modal : styles.closed}>
-      <div onClick={e => { e.stopPropagation(); }} className={styles.modalContainer}>
+      <div onClick={stopPropogationHandler} className={styles.modalContainer}>
         <div className={styles.modalTitle}>
           {title}
         </div>

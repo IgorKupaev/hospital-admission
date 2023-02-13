@@ -10,27 +10,25 @@ import type { IAdmission } from '../../interfaces/IAdmission';
 import type { IAdmissionsListProps } from '../../interfaces/propTypes/IAdmissionsListProps';
 import ListItem from '../ListItem/ListItem';
 
-const AdmissionsList: FC<IAdmissionsListProps> = (props): JSX.Element => {
-  const { admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal } = props;
+const AdmissionsList: FC<IAdmissionsListProps> = ({ admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal }): JSX.Element => {
+  const admissionEdit = (data: { _id: string }): void => {
+    prepareChangeModal(data);
+    setIsChangeOpened(true);
+  };
+
+  const admissionRemove = (data: { _id: string }): void => {
+    setChangeId(data);
+    setIsOpened(true);
+  };
 
   const admissionsHandler = (e: React.MouseEvent<HTMLElement>): void => {
     const target = e.target as HTMLElement;
-    let action, id;
-    if (target.id !== '') {
-      id = target.id;
-      action = target.lastElementChild?.attributes[1].nodeValue;
-      if (action === 'edit') {
-        prepareChangeModal({ _id: id });
-        setIsChangeOpened(true);
-      } else if (action === 'remove') {
-        setIsOpened(true);
-        setChangeId({ _id: id });
-      }
-    }
+    if (target.id === '') return;
+    const action = target.lastElementChild?.attributes[1].nodeValue;
+    action === 'edit' ? admissionEdit({ _id: target.id }) : admissionRemove({ _id: target.id });
   };
 
-  const sorted: IAdmission[] = useSort(admissions);
-  const filteredAndSorted: IAdmission[] = useFilter(sorted);
+  const filteredAndSorted: IAdmission[] = useFilter(useSort(admissions));
 
   return (
     <div onClick={admissionsHandler} className={styles.admissionsContainer}>
@@ -41,7 +39,7 @@ const AdmissionsList: FC<IAdmissionsListProps> = (props): JSX.Element => {
         <span>Жалобы</span>
       </div>
       {filteredAndSorted
-        .map(item => <ListItem key={item._id} item={item} />)}
+        .map(admission => <ListItem key={admission._id} item={admission} />)}
     </div>
   );
 };

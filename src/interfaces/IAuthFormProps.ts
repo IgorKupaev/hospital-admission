@@ -1,7 +1,7 @@
-import type { AuthType } from './AuthType';
+import type { AuthEnum } from './AuthEnum';
 
 export interface IAuthFormProps {
   setTitleBody: (value: string) => void
-  setRenderType: (value: AuthType) => void
-  renderType: AuthType
+  setRenderType: (value: AuthEnum) => void
+  renderType: AuthEnum
 };

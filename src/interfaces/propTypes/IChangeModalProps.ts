@@ -1,6 +1,8 @@
+import type { IAdmission } from '../IAdmission';
+
 export interface IChangeModalProps {
-  isChangeOpened: any
-  setIsChangeOpened: any
-  changeForms: { _id: string, complaint: string, pacient: string, doctor: string, date: string }
-  setChangeForms: any
+  isChangeOpened: boolean
+  setIsChangeOpened: (value: boolean) => void
+  changeForms: IAdmission
+  setChangeForms: (value: IAdmission) => void
 };

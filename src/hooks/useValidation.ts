@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export const useValidation = (value: any, validations: any): any => {
+export interface IUseValidation {
+  isEmpty: boolean
+  minLengthError: boolean
+  containsDigitAndLatin: boolean
+}
+
+export interface IValidations {
+  isEmpty: boolean
+  minLength: number
+  containsDigitAndLatin: boolean
+}
+
+export const useValidation = (value: string, validations: IValidations): IUseValidation => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [minLengthError, setMinLengthError] = useState(false);
   const [containsDigitAndLatin, setContainsDigitAndLatin] = useState(false);

@@ -31,18 +31,6 @@
     }
   }
 }
-.menuInput {
-  display: flex;
-  flex-direction: column;
-  span {
-    @extend %default-font;
-    color: #000000;
-    margin-bottom: 5px;
-  }
-  input {
-    padding: 10px 20px;
-  }
-}
 .menuButton {
   button {
     @extend %default-font;

@@ -73,7 +73,7 @@ export const removeAdmission = createAsyncThunk(
   'remove/admission',
   async (body: AxiosRequestConfig<any>) => {
     try {
-      const response = await axios.delete('http://localhost:8000/admission', { data: body });
+      const response = await axios.delete('http://localhost:8000/admission', body);
       return response.data;
     } catch (error: any) {
       return error.response.data;

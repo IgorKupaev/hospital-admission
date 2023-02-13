@@ -11,19 +11,24 @@ import type { IFilterOptions } from '../../interfaces/IFilterOptions';
 import type { IFilterMenuProps } from '../../interfaces/propTypes/IFilterMenuProps';
 
 const FilterMenu: FC<IFilterMenuProps> = ({ isFilterHidden, setIsFilterHidden }): JSX.Element => {
-  const [filter, setFilter] = useState<IFilterOptions>({ from: '', to: '' });
+  const initialFilter: IFilterOptions = { from: '', to: '' };
+  const [filter, setFilter] = useState<IFilterOptions>(initialFilter);
   const dispatch = useAppDispatch();
 
-  const filterHandler = (options: IFilterOptions): void => {
-    setFilter(options);
-  };
   const filterButtonHandler = (): void => {
     dispatch(changeFilter(filter));
   };
   const filterClearHandler = (): void => {
     dispatch(clearFilter());
-    setFilter({ from: '', to: '' });
+    setFilter(initialFilter);
     setIsFilterHidden(true);
+  };
+
+  const changeFromInFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFilter({ ...filter, from: e.target.value });
+  };
+  const changeToInFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFilter({ ...filter, from: e.target.value });
   };
   return (
     <div className={isFilterHidden ? styles.hidden : styles.filter}>
@@ -33,7 +38,7 @@ const FilterMenu: FC<IFilterMenuProps> = ({ isFilterHidden, setIsFilterHidden })
           <input
             type="date"
             value={filter.from}
-            onChange={e => { filterHandler({ ...filter, from: e.target.value }); }}
+            onChange={changeFromInFilter}
           />
         </div>
         <div className={styles.filterInput}>
@@ -41,7 +46,7 @@ const FilterMenu: FC<IFilterMenuProps> = ({ isFilterHidden, setIsFilterHidden })
           <input
             type="date"
             value={filter.to}
-            onChange={e => { filterHandler({ ...filter, to: e.target.value }); }}
+            onChange={changeToInFilter}
           />
         </div>
         <button onClick={filterButtonHandler} className={styles.filterButton}>Фильтровать</button>

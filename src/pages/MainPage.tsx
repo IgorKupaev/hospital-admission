@@ -11,12 +11,14 @@ import ChangeModal from '../components/ChangeModal/ChangeModal';
 import Menu from '../components/Menu/Menu';
 
 import type { IAdmission } from '../interfaces/IAdmission';
+import type { IChangeId } from '../interfaces/IChangeId';
 
 const MainPage = (): JSX.Element => {
+  const initialAdmission: IAdmission = { _id: '', pacient: '', doctor: '', date: '', complaint: '' };
   const [isRemoveOpened, setIsRemoveOpened] = useState<boolean>(false);
   const [isChangeOpened, setIsChangeOpened] = useState<boolean>(false);
-  const [changeId, setChangeId] = useState<any>({ _id: '' });
-  const [changeForms, setChangeForms] = useState<IAdmission>({ _id: '', pacient: '', doctor: '', date: '', complaint: '' });
+  const [changeId, setChangeId] = useState<IChangeId>({ _id: '' });
+  const [changeForms, setChangeForms] = useState<IAdmission>(initialAdmission);
   const [isFilterHidden, setIsFilterHidden] = useState<boolean>(true);
 
   const adsRedux = useAppSelector(state => state.admissionReducer.admissions);
@@ -37,10 +39,10 @@ const MainPage = (): JSX.Element => {
         return item;
       }
     }
-    return { _id: '', complaint: '', pacient: '', doctor: '', date: '' };
+    return initialAdmission;
   };
 
-  const prepareChangeModal = (body: any): void => {
+  const prepareChangeModal = (body: IChangeId): void => {
     const id = body._id;
     setChangeId(body);
     setChangeForms(
@@ -53,12 +55,10 @@ const MainPage = (): JSX.Element => {
       });
   };
 
-  const removeHandler = (): any => {
-    dispatch(removeAdmission(changeId)).then((res: any) => {
+  const removeHandler = (): void => {
+    console.log({ data: changeId });
+    dispatch(removeAdmission({ data: changeId })).then(() => {
       dispatch(getAdmissions());
-      return res.data.acknowledged;
-    }).catch((err: any) => {
-      return err;
     });
   };
 

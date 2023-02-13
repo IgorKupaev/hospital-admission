@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from './../../hooks/redux';
+import { useInput } from '../../hooks/useInput';
+import { useErrors } from '../../hooks/useErrors';
+import { useAuthRender } from '../../hooks/useAuthRender';
+
 import AuthFormInput from '../FormInput/FormInput';
 import AuthSnackbar from '../AuthSnackbar/AuthSnackbar';
 import FormErrors from '../FormErrors/FormErrors';
+
 import { authLogin, authReg } from '../../store/reducers/actionCreators';
 import { authUser } from '../../store/reducers/loginSlice';
-import { useInput } from '../../hooks/useInput';
-import { useErrors } from '../../hooks/useErrors';
-import { AuthType } from '../../interfaces/AuthType';
-import { useAuthRender } from '../../hooks/useAuthRender';
+import { AuthEnum } from '../../interfaces/AuthEnum';
 
 import styles from './AuthForm.module.scss';
 
@@ -19,12 +21,26 @@ import type { IUseErrors } from '../../interfaces/IUseErrors';
 
 const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType }): JSX.Element => {
   const handleRenderChange = (): void => {
-    setRenderType(renderType === 'register' ? AuthType.login : AuthType.register);
+    setRenderType(renderType === 'register' ? AuthEnum.login : AuthEnum.register);
     setTitleBody(renderType === 'register' ? 'Войти в систему' : 'Зарегистрироваться в системе');
   };
 
   const password = useInput('', { isEmpty: true, minLength: 6, containsDigitAndLatin: false });
+  const passwordOnBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    password.onBlur(e.target.value);
+  };
+  const passwordOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    password.onChange(e.target.value);
+  };
+
   const login = useInput('', { isEmpty: true, minLength: 6, containsDigitAndLatin: false });
+  const loginOnBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    login.onBlur(e.target.value);
+  };
+  const loginOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    login.onChange(e.target.value);
+  };
+
   const confirm = useInput('', { isEmpty: true, minLength: 6, containsDigitAndLatin: false });
   const [confirmError, setConfirmError] = useState(false);
 
@@ -60,13 +76,13 @@ const AuthForm: FC<IAuthFormProps> = ({ setTitleBody, renderType, setRenderType 
   const { isDisabled }: IUseErrors = useErrors(password, login);
   return (
     <div className={styles.form}>
-      <AuthSnackbar renderType={renderType} setRenderType={setRenderType} AuthType={AuthType} />
+      <AuthSnackbar renderType={renderType} setRenderType={setRenderType} />
       <h2 className={styles.formTitle}>
         {title}
       </h2>
       <div className={styles.inputs}>
-        <AuthFormInput onBlur={e => { login.onBlur(e); }} onChange={e => { login.onChange(e.target.value); }} value={login.value} title='Логин' />
-        <AuthFormInput onBlur={e => { password.onBlur(e); }} onChange={e => { password.onChange(e.target.value); }} value={password.value} title='Пароль' />
+        <AuthFormInput onBlur={loginOnBlur} onChange={loginOnChange} value={login.value} title='Логин' />
+        <AuthFormInput onBlur={passwordOnBlur} onChange={passwordOnChange} value={password.value} title='Пароль' />
         {regInput}
         <FormErrors confirmError={confirmError} password={password} login={login} />
       </div>
