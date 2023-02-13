@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useValidation } from './useValidation';
+import type { IValidations } from './useValidation';
+import type { IUseInput } from '../interfaces/IUseInput';
 
-export const useInput = (initialValue: any, validations: any): any => {
+export const useInput = (initialValue: string, validations: IValidations): IUseInput => {
   const [value, setValue] = useState(initialValue);
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
   const valid = useValidation(value, validations);
   const onChange = (value: string): void => {
     setValue(value);
   };
 
-  const onBlur = (e: any): void => {
+  const onBlur = (): void => {
     setIsDirty(true);
   };
 

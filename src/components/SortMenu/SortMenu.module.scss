@@ -1,0 +1,24 @@
+@import './../../utilities/vars.scss'; 
+.sort {
+  width: 100%;
+}
+.hidden {
+  display: none;
+}
+.sortContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.sortText {
+  @extend %default-font;
+  color: #000000;
+  margin: 0 18px;
+}
+.select {
+  @extend %default-font;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 10px 20px;
+  color: #000000;
+}

@@ -1,13 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getAdmissions } from './actionCreators';
-import type { IAdmission } from '../../models/IAdmission';
-
-export interface IAdmissionsState {
-  admissions: IAdmission[]
-  isLoading: boolean
-  error: string
-}
+import { editAdmissions, getAdmissions } from './actionCreators';
+import type { IAdmission } from '../../interfaces/IAdmission';
+import type { IAdmissionsState } from '../../interfaces/IAdmissionsState';
 
 const initialState: IAdmissionsState = {
   admissions: [],
@@ -28,19 +23,32 @@ export const admissionSlice = createSlice({
       localStorage.setItem('admissions', JSON.stringify(state.admissions));
     }
   },
-  extraReducers: {
-    [getAdmissions.fulfilled.type]: (state, action: PayloadAction<IAdmission[]>) => {
-      state.isLoading = false;
-      state.error = '';
-      state.admissions = action.payload;
-    },
-    [getAdmissions.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [getAdmissions.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAdmissions.fulfilled, (state, action: PayloadAction<IAdmission[]>) => {
+        state.isLoading = false;
+        state.error = '';
+        state.admissions = action.payload;
+      })
+      .addCase(getAdmissions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAdmissions.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(editAdmissions.fulfilled, (state, action: PayloadAction<IAdmission[]>) => {
+        state.isLoading = false;
+        state.error = '';
+        state.admissions = action.payload;
+      })
+      .addCase(editAdmissions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editAdmissions.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
 

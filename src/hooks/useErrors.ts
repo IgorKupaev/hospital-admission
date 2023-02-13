@@ -1,19 +1,5 @@
-export interface IUseErrors {
-  loginLength: boolean
-  passwordEmpty: boolean
-  latinAndDigit: boolean
-  passwordLength: boolean
-  loginEmpty: boolean
-  isDisabled: () => boolean
-}
-
-export interface IUseErrorsProps {
-  isDirty: boolean
-  isEmpty: boolean
-  containsDigitAndLatin: boolean
-  minLengthError: boolean
-
-}
+import type { IUseErrors } from '../interfaces/IUseErrors';
+import type { IUseErrorsProps } from '../interfaces/propTypes/IUseErrorsProps';
 
 export const useErrors = (password: IUseErrorsProps, login: IUseErrorsProps): IUseErrors => {
   const loginLength: boolean = (login.isDirty && login.minLengthError);

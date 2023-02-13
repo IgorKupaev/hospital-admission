@@ -1,17 +1,11 @@
 import React from 'react';
-import type { FC } from 'react';
+
 import styles from './Modal.module.scss';
 
-export interface IModalProps {
-  children: JSX.Element
-  title: string
-  buttonSettings: [text: string, callBack: () => void]
-  isOpened: boolean
-  setIsOpened: (value: boolean) => void
-}
+import type { IModalProps } from '../../interfaces/propTypes/IModalProps';
+import type { FC, MouseEvent } from 'react';
 
-const Modal: FC<IModalProps> = (props): JSX.Element => {
-  const { children, title, buttonSettings, isOpened, setIsOpened } = props;
+const Modal: FC<IModalProps> = ({ children, title, buttonSettings, isOpened, setIsOpened, isDisabled }): JSX.Element => {
   const closeModal = (): void => {
     setIsOpened(false);
   };
@@ -19,9 +13,12 @@ const Modal: FC<IModalProps> = (props): JSX.Element => {
     buttonSettings[1]();
     setIsOpened(false);
   };
+  const stopPropogationHandler = (e: MouseEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
+  };
   return (
     <div onClick={closeModal} className={isOpened ? styles.modal : styles.closed}>
-      <div onClick={e => { e.stopPropagation(); }} className={styles.modalContainer}>
+      <div onClick={stopPropogationHandler} className={styles.modalContainer}>
         <div className={styles.modalTitle}>
           {title}
         </div>
@@ -30,7 +27,13 @@ const Modal: FC<IModalProps> = (props): JSX.Element => {
         </div>
         <div className={styles.modalButtons}>
           <button onClick={closeModal} className="modalButton">Отмена</button>
-          <button onClick={buttonHandler} className="modalButton">{buttonSettings[0]}</button>
+          <button
+            disabled={typeof isDisabled === 'boolean' ? isDisabled : false}
+            onClick={buttonHandler}
+            className="modalButton"
+          >
+            {buttonSettings[0]}
+          </button>
         </div>
       </div>
     </div>

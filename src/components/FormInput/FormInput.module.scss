@@ -1,3 +1,4 @@
+@import './../../utilities/vars.scss'; 
 .inputContainer {
   display: inline-flex;
   flex-direction: column;
@@ -17,11 +18,7 @@
 }
 .input {
   &::placeholder {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 21px;
+    @extend %default-font;
     color: rgba(0, 0, 0, 0.2);
   }
   width: 320px;

@@ -1,23 +1,25 @@
 import React from 'react';
-import type { FC } from 'react';
+
 import titlePicture from './../../assets/images/TitlePicture.svg';
-import styles from './Title.module.scss';
+
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/redux';
 import { logoutUser } from '../../store/reducers/loginSlice';
 import { clearAdmissions } from '../../store/reducers/admissionSlice';
 
-interface ITitleProps {
-  body: string
-  showExit: boolean
-}
+import styles from './Title.module.scss';
+
+import type { ITitleProps } from '../../interfaces/propTypes/ITitleProps';
+import type { FC } from 'react';
 
 const Title: FC<ITitleProps> = ({ body, showExit }): JSX.Element => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logout = (): void => {
     localStorage.setItem('token', '');
-    logoutUser();
+    dispatch(logoutUser());
     navigate('/auth');
-    clearAdmissions();
+    dispatch(clearAdmissions());
     localStorage.setItem('admissions', '');
   };
   return (

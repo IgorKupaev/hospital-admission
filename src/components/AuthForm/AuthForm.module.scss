@@ -26,11 +26,6 @@
   align-items: flex-end;
 }
 .fetch {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 21px;
   color: rgba(0, 0, 0, 0.8);
   padding: 10px;
   background: #FFFFFF;
@@ -38,6 +33,7 @@
   border-radius: 4px;
   min-width: 148px;
   margin-bottom: 15px;
+  font-family: 'Roboto';
   cursor: pointer;
   transition: all .2s ease;
   &:hover {
@@ -45,30 +41,18 @@
   }
 }
 .changeAuth {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 21px;
   border: none;
   outline: none;
   background-color: transparent;
+  font-family: 'Roboto';
   cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
 }
-.err {
-  color: red;
-}
 @media (max-width: 920px) {
   .formTitle {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
     font-size: 18px;
-    line-height: 42px;
-    color: #000000;
   }
   .form {
     padding: 15px 15px 22.5px 15px;

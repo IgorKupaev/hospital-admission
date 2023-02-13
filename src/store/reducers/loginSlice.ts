@@ -2,14 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { authLogin } from './actionCreators';
 import type { ILoginResponse } from './actionCreators';
-import type { IUser } from '../../models/IUser';
-
-interface ILoginState {
-  user: IUser
-  token: string | null
-  error: string
-  isLoading: boolean
-}
+import type { ILoginState } from '../../interfaces/ILoginState';
 
 const initialState: ILoginState = {
   user: {
@@ -41,20 +34,24 @@ export const loginSlice = createSlice({
       localStorage.setItem('token', '');
     }
   },
-  extraReducers: {
-    [authLogin.fulfilled.type]: (state, action: PayloadAction<any>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-    },
-    [authLogin.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [authLogin.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(authLogin.fulfilled, (state, action: PayloadAction<any>) => {
+        if (typeof action.payload.user.login !== 'undefined') {
+          state.user = action.payload.user;
+        }
+        state.isLoading = false;
+        state.error = action.payload;
+        state.user = initialState.user;
+        state.token = action.payload.token;
+      })
+      .addCase(authLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(authLogin.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
 

@@ -1,49 +1,45 @@
 import React from 'react';
-import type { IAdmission } from '../../models/IAdmission';
-import type { FC } from 'react';
-import styles from './AdmissionsList.module.scss';
-import remove from './../../assets/images/remove.svg';
-import edit from './../../assets/images/edit.svg';
 
-interface IAdmissionsListProps {
-  admissions: IAdmission[]
-  setIsOpened: (value: boolean) => void
-  setChangeId: (value: string) => void
-  setIsChangeOpened: (value: boolean) => void
-  prepareChangeModal: (value: string) => void
-}
+import { useSort } from '../../hooks/useSort';
+import { useFilter } from '../../hooks/useFilter';
+
+import styles from './AdmissionsList.module.scss';
+
+import type { FC } from 'react';
+import type { IAdmission } from '../../interfaces/IAdmission';
+import type { IAdmissionsListProps } from '../../interfaces/propTypes/IAdmissionsListProps';
+import ListItem from '../ListItem/ListItem';
 
 const AdmissionsList: FC<IAdmissionsListProps> = ({ admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal }): JSX.Element => {
-  const removeHandler = async (body: any): Promise<any> => {
-    setIsOpened(true);
-    setChangeId(body);
-  };
-  const changeHandler = (id: any): void => {
-    prepareChangeModal(id);
+  const admissionEdit = (data: { _id: string }): void => {
+    prepareChangeModal(data);
     setIsChangeOpened(true);
   };
 
+  const admissionRemove = (data: { _id: string }): void => {
+    setChangeId(data);
+    setIsOpened(true);
+  };
+
+  const admissionsHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    const target = e.target as HTMLElement;
+    if (target.id === '') return;
+    const action = target.lastElementChild?.attributes[1].nodeValue;
+    action === 'edit' ? admissionEdit({ _id: target.id }) : admissionRemove({ _id: target.id });
+  };
+
+  const filteredAndSorted: IAdmission[] = useFilter(useSort(admissions));
+
   return (
-    <div className={styles.admissionsContainer}>
-      <div className={styles.admissionsTitle}><span>Имя</span><span>Врач</span><span>Дата</span><span>Жалобы</span></div>
-      {admissions.map(item => {
-        return (
-          <div className={styles.admissions} key={item._id}>
-            <div className={styles.pacient}><span>{item.pacient}</span></div>
-            <div className={styles.doctor}><span>{item.doctor}</span></div>
-            <div className={styles.date}><span>{item.date}</span></div>
-            <div className={styles.complaint}><span>{item.complaint}</span></div>
-            <div className={styles.buttons}>
-              <span id={item._id} onClick={e => { void removeHandler({ _id: e.currentTarget.id }); }} className={styles.remove}>
-                <img src={remove} alt="" />
-              </span>
-              <span id={item._id} onClick={ e => { changeHandler({ _id: e.currentTarget.id }); } } className={styles.edit}>
-                <img src={edit} alt="" />
-              </span>
-            </div>
-          </div>
-        );
-      })}
+    <div onClick={admissionsHandler} className={styles.admissionsContainer}>
+      <div className={styles.admissionsTitle}>
+        <span>Имя</span>
+        <span>Врач</span>
+        <span>Дата</span>
+        <span>Жалобы</span>
+      </div>
+      {filteredAndSorted
+        .map(admission => <ListItem key={admission._id} item={admission} />)}
     </div>
   );
 };

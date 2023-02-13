@@ -1,0 +1,61 @@
+@import './../../utilities/vars.scss';
+.filter {
+  width: 100%;
+}
+.hidden {
+  display: none;
+}
+.filterContainer {
+  max-width: 1140px;
+  margin: 0 auto 25px auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+.filterInput {
+  display: flex;
+  align-items: center;
+  span {
+    margin: 0 10px;
+  }
+  input {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-right: 14px;
+    cursor: pointer;
+    @extend %default-font;
+    color: #000000;
+  }
+  &:not(:first-child) {
+    margin-right: 40px;
+  }
+}
+.filterButton {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  padding: 10px 49px;
+  cursor: pointer;
+  transition: all .2s ease;
+  &:hover {
+    background-color: #f6f6f6;
+  }
+  margin-right: 24px;
+}
+.filterRemove {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  img {
+    height: 40px;
+  }
+  cursor: pointer;
+}
