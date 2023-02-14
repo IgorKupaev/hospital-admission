@@ -1,47 +1,66 @@
 import React from 'react';
+import { store } from '../../store/store';
 
 import { useSort } from '../../hooks/useSort';
 import { useFilter } from '../../hooks/useFilter';
 
 import styles from './AdmissionsList.module.scss';
 
-import type { FC } from 'react';
 import type { IAdmission } from '../../interfaces/IAdmission';
 import type { IAdmissionsListProps } from '../../interfaces/propTypes/IAdmissionsListProps';
+import type { IFilterOptions } from '../../interfaces/IFilterOptions';
+
 import ListItem from '../ListItem/ListItem';
 
-const AdmissionsList: FC<IAdmissionsListProps> = ({ admissions, setIsOpened, setChangeId, setIsChangeOpened, prepareChangeModal }): JSX.Element => {
-  const admissionEdit = (data: { _id: string }): void => {
-    prepareChangeModal(data);
-    setIsChangeOpened(true);
-  };
+class AdmissionsList extends React.Component<IAdmissionsListProps, { filteredAndSorted: IAdmission[], filterOptions: IFilterOptions }> {
+  constructor (props: IAdmissionsListProps) {
+    super(props);
+    this.admissionEdit = this.admissionEdit.bind(this);
+    this.admissionRemove = this.admissionRemove.bind(this);
+    this.admissionsHandler = this.admissionsHandler.bind(this);
+    this.state = {
+      filteredAndSorted: useFilter(useSort(store.getState().admissionReducer.admissions)),
+      filterOptions: store.getState().filterReducer
+    };
+  }
 
-  const admissionRemove = (data: { _id: string }): void => {
-    setChangeId(data);
-    setIsOpened(true);
-  };
+  admissionEdit (data: { _id: string }): void {
+    this.props.prepareChangeModal(data);
+    this.props.setIsChangeOpened(true);
+  }
 
-  const admissionsHandler = (e: React.MouseEvent<HTMLElement>): void => {
+  admissionRemove (data: { _id: string }): void {
+    this.props.setChangeId(data);
+    this.props.setIsOpened(true);
+  }
+
+  admissionsHandler (e: React.MouseEvent<HTMLElement>): void {
     const target = e.target as HTMLElement;
     if (target.id === '') return;
     const action = target.lastElementChild?.attributes[1].nodeValue;
-    action === 'edit' ? admissionEdit({ _id: target.id }) : admissionRemove({ _id: target.id });
-  };
+    action === 'edit' ? this.admissionEdit({ _id: target.id }) : this.admissionRemove({ _id: target.id });
+  }
 
-  const filteredAndSorted: IAdmission[] = useFilter(useSort(admissions));
+  componentDidMount (): void {
+    store.subscribe(() => {
+      this.setState({ filteredAndSorted: useFilter(useSort(store.getState().admissionReducer.admissions)) });
+    });
+  }
 
-  return (
-    <div onClick={admissionsHandler} className={styles.admissionsContainer}>
+  render (): JSX.Element {
+    return (
+      <div onClick={this.admissionsHandler} className={styles.admissionsContainer}>
       <div className={styles.admissionsTitle}>
         <span>Имя</span>
         <span>Врач</span>
         <span>Дата</span>
         <span>Жалобы</span>
       </div>
-      {filteredAndSorted
+      {this.state.filteredAndSorted
         .map(admission => <ListItem key={admission._id} item={admission} />)}
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 export default AdmissionsList;

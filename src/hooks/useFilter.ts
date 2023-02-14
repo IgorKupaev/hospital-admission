@@ -1,8 +1,8 @@
 import type { IAdmission } from '../interfaces/IAdmission';
-import { useAppSelector } from './redux';
+import { store } from '../store/store';
 
 export const useFilter = (admissions: IAdmission[]): IAdmission[] => {
-  const filterOptions = useAppSelector(state => state.filterReducer);
+  const filterOptions = store.getState().filterReducer;
   if (filterOptions.from === '' && filterOptions.to === '') {
     return admissions;
   }

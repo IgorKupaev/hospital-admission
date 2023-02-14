@@ -1,8 +1,8 @@
 import type { IAdmission } from '../interfaces/IAdmission';
-import { useAppSelector } from './redux';
+import { store } from '../store/store';
 
 export const useSort = (admissions: any): IAdmission[] => {
-  const sortOptions = useAppSelector(state => state.sortReducer);
+  const sortOptions = store.getState().sortReducer;
   if (sortOptions.sort === 'none') {
     return admissions;
   }
