@@ -186,7 +186,6 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
   }
 
   componentDidMount (): void {
-    console.log('didMount');
     this.setState({
       isDisabled: useErrors(this.state.password, this.state.login).isDisabled,
       authRender: useAuthRender(this.props.renderType, this.state.confirm),
@@ -224,8 +223,6 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
       this.setState({ authRender: useAuthRender(this.props.renderType, this.state.confirm) });
     }
     if (this.state.passwordValue !== prevState.passwordValue) {
-      console.log(this.state.password, this.state.login);
-
       const initValidations = {
         isEmpty: this.state.password.isEmpty,
         minLength: 6,
@@ -246,7 +243,6 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
       });
     }
     if (this.state.loginValue !== prevState.loginValue) {
-      console.log(this.state.password, this.state.login);
       const initValidations = {
         isEmpty: this.state.login.isEmpty,
         minLength: 6,
