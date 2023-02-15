@@ -8,29 +8,36 @@ import addPicture from '../../assets/images/add.svg';
 import styles from './Menu.module.scss';
 
 import type { IMenuProps } from '../../interfaces/propTypes/IMenuProps';
-import type { FC } from 'react';
 
-const Menu: FC<IMenuProps> = ({ ads, setAds, isFilterHidden, setIsFilterHidden }): JSX.Element => {
-  const addHandler = (): void => {
-    setIsFilterHidden(false);
+class Menu extends React.Component<IMenuProps> {
+  constructor (props: IMenuProps) {
+    super(props);
+    this.addHandler = this.addHandler.bind(this);
+  }
+
+  addHandler (): void {
+    this.props.setIsFilterHidden(false);
   };
-  return (
-    <div>
-      <CreateMenu ads={ads} setAds={setAds} />
-      <div className={styles.container}>
-        <SortMenu />
-        <div className={isFilterHidden ? styles.openFilter : styles.hidden}>
-          <span>
-            Добавить фильтр по дате:
-          </span>
-          <div onClick={addHandler}>
-            <img src={addPicture} alt="add" />
+
+  render (): JSX.Element {
+    return (
+      <div>
+        <CreateMenu ads={this.props.ads} setAds={this.props.setAds} />
+        <div className={styles.container}>
+          <SortMenu />
+          <div className={this.props.isFilterHidden ? styles.openFilter : styles.hidden}>
+            <span>
+              Добавить фильтр по дате:
+            </span>
+            <div onClick={this.addHandler}>
+              <img src={addPicture} alt="add" />
+            </div>
           </div>
         </div>
+        <FilterMenu isFilterHidden={this.props.isFilterHidden} setIsFilterHidden={this.props.setIsFilterHidden} />
       </div>
-      <FilterMenu isFilterHidden={isFilterHidden} setIsFilterHidden={setIsFilterHidden} />
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Menu;
