@@ -3,41 +3,52 @@ import React from 'react';
 import styles from './Modal.module.scss';
 
 import type { IModalProps } from '../../interfaces/propTypes/IModalProps';
-import type { FC, MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 
-const Modal: FC<IModalProps> = ({ children, title, buttonSettings, isOpened, setIsOpened, isDisabled }): JSX.Element => {
-  const closeModal = (): void => {
-    setIsOpened(false);
+class Modal extends React.Component<IModalProps> {
+  constructor (props: IModalProps) {
+    super(props);
+    this.closeModal = this.closeModal.bind(this);
+    this.buttonHandler = this.buttonHandler.bind(this);
+  }
+
+  closeModal (): void {
+    this.props.setIsOpened(false);
   };
-  const buttonHandler = (): void => {
-    buttonSettings[1]();
-    setIsOpened(false);
+
+  buttonHandler (): void {
+    this.props.buttonSettings[1]();
+    this.props.setIsOpened(false);
   };
-  const stopPropogationHandler = (e: MouseEvent<HTMLDivElement>): void => {
+
+  stopPropogationHandler (e: MouseEvent<HTMLDivElement>): void {
     e.stopPropagation();
   };
-  return (
-    <div onClick={closeModal} className={isOpened ? styles.modal : styles.closed}>
-      <div onClick={stopPropogationHandler} className={styles.modalContainer}>
-        <div className={styles.modalTitle}>
-          {title}
-        </div>
-        <div className={styles.modalBody}>
-          {children}
-        </div>
-        <div className={styles.modalButtons}>
-          <button onClick={closeModal} className="modalButton">Отмена</button>
-          <button
-            disabled={typeof isDisabled === 'boolean' ? isDisabled : false}
-            onClick={buttonHandler}
-            className="modalButton"
-          >
-            {buttonSettings[0]}
-          </button>
+
+  render (): JSX.Element {
+    return (
+      <div onClick={this.closeModal} className={this.props.isOpened ? styles.modal : styles.closed}>
+        <div onClick={this.stopPropogationHandler} className={styles.modalContainer}>
+          <div className={styles.modalTitle}>
+            {this.props.title}
+          </div>
+          <div className={styles.modalBody}>
+            {this.props.children}
+          </div>
+          <div className={styles.modalButtons}>
+            <button onClick={this.closeModal} className="modalButton">Отмена</button>
+            <button
+              disabled={typeof this.props.isDisabled === 'boolean' ? this.props.isDisabled : false}
+              onClick={this.buttonHandler}
+              className="modalButton"
+            >
+              {this.props.buttonSettings[0]}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Modal;
