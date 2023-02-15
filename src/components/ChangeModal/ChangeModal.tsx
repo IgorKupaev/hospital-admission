@@ -1,41 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Modal from '../Modal/Modal';
 import ChangeForms from '../ChangeForms/ChangeForms';
-import { useAppDispatch } from '../../hooks/redux';
 import { editAdmissions } from '../../store/reducers/actionCreators';
 
 import type { IChangeModalProps } from '../../interfaces/propTypes/IChangeModalProps';
-import type { FC } from 'react';
+import { store } from '../../store/store';
 
-const ChangeModal: FC<IChangeModalProps> = ({ isChangeOpened, setIsChangeOpened, changeForms, setChangeForms }): JSX.Element => {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const dispatch = useAppDispatch();
+interface ChangeModalState {
+  isDisabled: boolean
+}
 
-  useEffect(() => {
-    setIsDisabled(false);
-    for (const value of Object.values(changeForms)) {
-      if (value.length < 6) {
-        setIsDisabled(true);
-        break;
-      }
+class ChangeModal extends React.Component<IChangeModalProps, ChangeModalState> {
+  constructor (props: IChangeModalProps) {
+    super(props);
+
+    this.setIsDisabled = this.setIsDisabled.bind(this);
+    this.editAdmission = this.editAdmission.bind(this);
+
+    this.state = {
+      isDisabled: false
     };
-  }, [changeForms]);
+  }
 
-  const editAdmission = (): void => {
-    dispatch(editAdmissions({ data: changeForms }));
+  setIsDisabled (value: boolean): void {
+    this.setState({
+      isDisabled: value
+    });
+  }
+
+  editAdmission (): void {
+    store.dispatch(editAdmissions({ data: this.props.changeForms }));
   };
-  return (
-    <Modal
-      isDisabled={isDisabled}
-      isOpened={isChangeOpened}
-      setIsOpened={setIsChangeOpened}
-      title='Изменить прием'
-      buttonSettings={['Сохранить', editAdmission]}
-    >
-      <ChangeForms changeForms={changeForms} setChangeForms={setChangeForms} />
-    </Modal>
-  );
-};
+
+  componentDidUpdate (prevProps: IChangeModalProps, prevState: ChangeModalState): void {
+    if (prevProps.changeForms !== this.props.changeForms) {
+      this.setIsDisabled(false);
+      for (const value of Object.values(this.props.changeForms)) {
+        if (value.length < 6) {
+          this.setIsDisabled(true);
+          break;
+        }
+      };
+    }
+  }
+
+  render (): JSX.Element {
+    return (
+      <Modal
+        isDisabled={this.state.isDisabled}
+        isOpened={this.props.isChangeOpened}
+        setIsOpened={this.props.setIsChangeOpened}
+        title='Изменить прием'
+        buttonSettings={['Сохранить', this.editAdmission]}
+      >
+        <ChangeForms changeForms={this.props.changeForms} setChangeForms={this.props.setChangeForms} />
+      </Modal>
+    );
+  }
+}
 
 export default ChangeModal;
