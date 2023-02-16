@@ -37,7 +37,7 @@ export const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authLogin.fulfilled, (state, action: PayloadAction<any>) => {
-        if (typeof action.payload.user.login !== 'undefined') {
+        if (typeof action.payload.user?.login !== 'undefined') {
           state.user = action.payload.user;
         }
         state.isLoading = false;

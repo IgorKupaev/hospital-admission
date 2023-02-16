@@ -4,6 +4,7 @@ import { Alert, Snackbar } from '@mui/material';
 import type { IAuthSnackbar } from '../../interfaces/IAuthSnackbar';
 import { AuthEnum } from '../../interfaces/AuthEnum';
 import { store } from '../../store/store';
+import { connect } from 'react-redux';
 
 interface AuthSnackbarState {
   message: string
@@ -47,15 +48,22 @@ class AuthSnackbar extends React.Component<IAuthSnackbar, AuthSnackbarState> {
   }
 
   componentDidUpdate (prevProps: IAuthSnackbar, prevState: AuthSnackbarState): void {
-    if (prevState.isLoadingLogin !== this.state.isLoadingLogin || prevState.isLoadingReg !== this.state.isLoadingReg) {
-      if (!this.state.isLoadingReg) {
+    // const loginStatus: boolean = store.getState().loginReducer.isLoading;
+    const regStatus: boolean = store.getState().regReducer.isLoading;
+    const logError: string = store.getState().loginReducer.error;
+    const regMessage: string = store.getState().regReducer.regStatus;
+    if (prevState.message !== regMessage) {
+      this.setState({
+        message: regMessage
+      });
+      if (!regStatus) {
         if (this.state.message === "User's registration is succesful") {
           this.props.setRenderType(AuthEnum.login);
           this.setCustomMessage('Registration is successful. Now you can log in');
         }
-        if (this.state.message !== '') {
+        if (regMessage !== '') {
           this.setIsInfoOpened(true);
-        } else if (this.state.logMessage !== '') {
+        } else if (logError !== '') {
           this.setIsInfoOpened(true);
         }
       }
@@ -73,4 +81,13 @@ class AuthSnackbar extends React.Component<IAuthSnackbar, AuthSnackbarState> {
   }
 }
 
-export default AuthSnackbar;
+const mapStateToProps = (state: any): { message: string, isLoadingReg: boolean, logMessage: string, isLoadingLogin: boolean } => {
+  return {
+    message: state.regReducer.regStatus,
+    isLoadingReg: state.regReducer.isLoading,
+    logMessage: state.loginReducer.error,
+    isLoadingLogin: state.loginReducer.isLoading
+  };
+};
+
+export default connect(mapStateToProps)(AuthSnackbar);

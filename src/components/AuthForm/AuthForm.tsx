@@ -171,10 +171,6 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
     if (this.props.renderType === 'login') {
       store.dispatch(authLogin({ data: { password: this.state.password.value, login: this.state.login.value } })); // temp
       this.setIsAuthorized(!this.state.isAuthorized); // temp
-      // if (!this.state.password.isDirty && this.state.password.isEmpty && !this.state.password.containsDigitAndLatin) {
-      //   store.dispatch(authLogin({ data: { password: this.state.password.value, login: this.state.login.value } }));
-      //   this.setIsAuthorized(!this.state.isAuthorized);
-      // }
     } else {
       if (this.state.confirm.value !== this.state.password.value) {
         this.setConfirmError(true);
@@ -287,7 +283,7 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
         <div className={styles.inputs}>
           <AuthFormInput onBlur={this.loginOnBlur} onChange={this.loginOnChange} value={this.state.loginValue} title='Логин' />
           <AuthFormInput onBlur={this.passwordOnBlur} onChange={this.passwordOnChange} value={this.state.passwordValue} title='Пароль' />
-          {this.state.authRender.regInput}
+          {this.props.renderType === AuthEnum.register && <AuthFormInput onBlur={e => { this.state.confirm.onBlur(e.target.value); }} onChange={e => { this.state.confirm.onChange(e.target.value); }} value={this.state.confirm.value} title='Повторите пароль' />}
           <FormErrors confirmError={this.state.confirmError} password={this.state.password} login={this.state.login} />
         </div>
         <div className={styles.buttons}>
@@ -296,7 +292,7 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
         </div>
       </div>
     );
-  }// disabled={this.state.isDisabled() && !this.state.confirmError} - from button authFetch;
+  }
 }
 
 export default AuthForm;
