@@ -1,94 +1,172 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 import { getAdmissions, removeAdmission } from '../store/reducers/actionCreators';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { useAuthRouting } from '../hooks/useAuthRouting';
 import AdmissionsList from '../components/AdmissionsList/AdmissionsList';
 import Title from '../components/Title/Title';
 import Modal from '../components/Modal/Modal';
 import ChangeModal from '../components/ChangeModal/ChangeModal';
 import Menu from '../components/Menu/Menu';
+import { Navigate } from 'react-router-dom';
 
 import type { IAdmission } from '../interfaces/IAdmission';
 import type { IChangeId } from '../interfaces/IChangeId';
+import { store } from '../store/store';
+import { connect } from 'react-redux';
 
-const MainPage = (): JSX.Element => {
-  const initialAdmission: IAdmission = { _id: '', pacient: '', doctor: '', date: '', complaint: '' };
-  const [isRemoveOpened, setIsRemoveOpened] = useState<boolean>(false);
-  const [isChangeOpened, setIsChangeOpened] = useState<boolean>(false);
-  const [changeId, setChangeId] = useState<IChangeId>({ _id: '' });
-  const [changeForms, setChangeForms] = useState<IAdmission>(initialAdmission);
-  const [isFilterHidden, setIsFilterHidden] = useState<boolean>(true);
+const initialAdmission: IAdmission = { _id: '', pacient: '', doctor: '', date: '', complaint: '' };
 
-  const adsRedux = useAppSelector(state => state.admissionReducer.admissions);
-  const [ads, setAds] = useState(adsRedux);
-  useEffect(() => {
-    setAds(adsRedux);
-  }, [adsRedux]);
+interface MainPageState {
+  isRemoveOpened: boolean
+  isChangeOpened: boolean
+  changeId: IChangeId
+  changeForms: IAdmission
+  isFilterHidden: boolean
+  adsRedux: IAdmission[]
+  token: string
+  admissions: IAdmission[]
+  isAuthorized: boolean
+}
 
-  const token = useAppSelector(state => state.loginReducer.token);
-  useAuthRouting(token !== null ? token : '');
-  const dispatch = useAppDispatch();
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+class MainPage extends React.Component<unknown, MainPageState> {
+  constructor (props: unknown) {
+    super(props);
 
-  const getAdmissionById = (id: string): IAdmission => {
-    for (const item of ads) {
+    this.setIsRemoveOpened = this.setIsRemoveOpened.bind(this);
+    this.setIsChangeOpened = this.setIsChangeOpened.bind(this);
+    this.setChangeId = this.setChangeId.bind(this);
+    this.setChangeForms = this.setChangeForms.bind(this);
+    this.setIsFilterHidden = this.setIsFilterHidden.bind(this);
+    this.getAdmissionById = this.getAdmissionById.bind(this);
+    this.prepareChangeModal = this.prepareChangeModal.bind(this);
+    this.removeHandler = this.removeHandler.bind(this);
+    this.setAdmissions = this.setAdmissions.bind(this);
+
+    this.state = {
+      isRemoveOpened: false,
+      isChangeOpened: false,
+      changeId: { _id: '' },
+      changeForms: initialAdmission,
+      isFilterHidden: true,
+      adsRedux: store.getState().admissionReducer.admissions,
+      token: store.getState().loginReducer.token,
+      admissions: [],
+      isAuthorized: true
+    };
+  }
+
+  setIsRemoveOpened (value: boolean): void {
+    this.setState({
+      isRemoveOpened: value
+    });
+  }
+
+  setIsChangeOpened (value: boolean): void {
+    this.setState({
+      isChangeOpened: value
+    });
+  }
+
+  setChangeId (value: { _id: string }): void {
+    this.setState({
+      changeId: value
+    });
+  }
+
+  setChangeForms (value: IAdmission): void {
+    this.setState({
+      changeForms: value
+    });
+  }
+
+  setIsFilterHidden (value: boolean): void {
+    this.setState({
+      isFilterHidden: value
+    });
+  }
+
+  getAdmissionById (id: string): IAdmission {
+    console.log(store.getState().admissionReducer.admissions);
+    for (const item of store.getState().admissionReducer.admissions) {
       if (item._id === id) {
         return item;
       }
     }
     return initialAdmission;
-  };
+  }
 
-  const prepareChangeModal = (body: IChangeId): void => {
+  prepareChangeModal (body: IChangeId): void {
     const id = body._id;
-    setChangeId(body);
-    setChangeForms(
+
+    this.setChangeId(body);
+    this.setChangeForms(
       {
         _id: id,
-        pacient: getAdmissionById(id).pacient,
-        doctor: getAdmissionById(id).doctor,
-        complaint: getAdmissionById(id).complaint,
-        date: getAdmissionById(id).date
+        pacient: this.getAdmissionById(id).pacient,
+        doctor: this.getAdmissionById(id).doctor,
+        complaint: this.getAdmissionById(id).complaint,
+        date: this.getAdmissionById(id).date
       });
-  };
+  }
 
-  const removeHandler = (): void => {
-    console.log({ data: changeId });
-    dispatch(removeAdmission({ data: changeId })).then(() => {
-      dispatch(getAdmissions());
+  setAdmissions (value: IAdmission[]): void {
+    this.setState({
+      admissions: value
     });
-  };
+  }
 
-  return (
-    <div style={{ width: '100%' }}>
-      <Title body='Приемы' showExit />
-      <Menu ads={ads} setAds={setAds} isFilterHidden={isFilterHidden} setIsFilterHidden={setIsFilterHidden} />
-      <AdmissionsList
-        prepareChangeModal={prepareChangeModal}
-        setIsChangeOpened={setIsChangeOpened}
-        setIsOpened={setIsRemoveOpened}
-        setChangeId={setChangeId}
-        admissions={ads}
-      />
-      <Modal
-        isOpened={isRemoveOpened}
-        setIsOpened={setIsRemoveOpened}
-        title='Удалить прием'
-        buttonSettings={['Удалить', removeHandler]}
-      >
-        <div>Вы действительно хотите удалить прием?</div>
-      </Modal>
-      <ChangeModal
-        isChangeOpened={isChangeOpened}
-        setIsChangeOpened={setIsChangeOpened}
-        changeForms={changeForms}
-        setChangeForms={setChangeForms}
-      />
-    </div>
-  );
+  removeHandler (): void {
+    store.dispatch(removeAdmission({ data: this.state.changeId })).then(() => {
+      store.dispatch(getAdmissions());
+    });
+  }
+
+  componentDidMount (): void {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    axios.defaults.headers.common.Authorization = `Bearer ${this.state.token}`;
+    store.dispatch(getAdmissions());
+    this.setState({
+      admissions: store.getState().admissionReducer.admissions
+    });
+  }
+
+  render (): JSX.Element {
+    return (
+      <div style={{ width: '100%' }}>
+        {!this.state.isAuthorized && <Navigate to='/auth' />}
+        <Title body='Приемы' showExit />
+        <Menu ads={this.state.admissions} setAds={this.setAdmissions} isFilterHidden={this.state.isFilterHidden} setIsFilterHidden={this.setIsFilterHidden} />
+        <AdmissionsList
+          prepareChangeModal={this.prepareChangeModal}
+          setIsChangeOpened={this.setIsChangeOpened}
+          setIsOpened={this.setIsRemoveOpened}
+          setChangeId={this.setChangeId}
+          admissions={this.state.admissions}
+        />
+        <Modal
+          isOpened={this.state.isRemoveOpened}
+          setIsOpened={this.setIsRemoveOpened}
+          title='Удалить прием'
+          buttonSettings={['Удалить', this.removeHandler]}
+        >
+          <div>Вы действительно хотите удалить прием?</div>
+        </Modal>
+        <ChangeModal
+          isChangeOpened={this.state.isChangeOpened}
+          setIsChangeOpened={this.setIsChangeOpened}
+          changeForms={this.state.changeForms}
+          setChangeForms={this.setChangeForms}
+        />
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state: any): { token: string, adsRedux: IAdmission[] } => {
+  return {
+    token: state.loginReducer.token,
+    adsRedux: state.admissionReducer.admissions
+  };
 };
 
-export default MainPage;
+export default connect(mapStateToProps)(MainPage);
