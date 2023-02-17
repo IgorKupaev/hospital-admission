@@ -48,13 +48,13 @@ class AuthSnackbar extends React.Component<IAuthSnackbar, AuthSnackbarState> {
   }
 
   componentDidUpdate (prevProps: IAuthSnackbar, prevState: AuthSnackbarState): void {
-    // const loginStatus: boolean = store.getState().loginReducer.isLoading;
     const regStatus: boolean = store.getState().regReducer.isLoading;
     const logError: string = store.getState().loginReducer.error;
     const regMessage: string = store.getState().regReducer.regStatus;
-    if (prevState.message !== regMessage) {
+    if (prevState.message !== regMessage || prevState.logMessage !== logError) {
       this.setState({
-        message: regMessage
+        message: regMessage,
+        logMessage: logError
       });
       if (!regStatus) {
         if (this.state.message === "User's registration is succesful") {

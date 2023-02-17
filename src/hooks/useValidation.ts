@@ -1,5 +1,6 @@
-import { setContainsDigitAndLatin, setIsEmpty, setMinLengthError } from '../store/reducers/validSlice';
 import { store } from '../store/store';
+
+import { setIsEmptyLogin, setMinLengthErrorLogin, setContainsDigitAndLatinLogin, setIsEmptyPassword, setMinLengthErrorPassword, setContainsDigitAndLatinPassword, setIsEmptyConfirm, setMinLengthErrorConfirm, setContainsDigitAndLatinConfirm } from '../store/reducers/validSlice';
 
 export interface IUseValidation {
   isEmpty: boolean
@@ -13,20 +14,42 @@ export interface IValidations {
   containsDigitAndLatin: boolean
 }
 
-export const useValidation = (value: string, validations: IValidations): IUseValidation => {
+export const useValidation = (value: string, validations: IValidations, name: string): IUseValidation => {
   const { isEmpty, minLengthError, containsDigitAndLatin } = { isEmpty: true, minLengthError: false, containsDigitAndLatin: false };
 
-  // В родительской компоненте сделать обновление при изменении value, useEffect(() => {}, [value]);
+  let setMinLengthError;
+  let setIsEmpty;
+  let setContainsDigitAndLatin;
+  if (name === 'password') {
+    setMinLengthError = setMinLengthErrorPassword;
+    setIsEmpty = setIsEmptyPassword;
+    setContainsDigitAndLatin = setContainsDigitAndLatinPassword;
+  } else
+  if (name === 'login') {
+    setMinLengthError = setMinLengthErrorLogin;
+    setIsEmpty = setIsEmptyLogin;
+    setContainsDigitAndLatin = setContainsDigitAndLatinLogin;
+  } else
+  if (name === 'confirm') {
+    setMinLengthError = setMinLengthErrorConfirm;
+    setIsEmpty = setIsEmptyConfirm;
+    setContainsDigitAndLatin = setContainsDigitAndLatinConfirm;
+  } else {
+    setMinLengthError = () => {};
+    setIsEmpty = () => {};
+    setContainsDigitAndLatin = () => {};
+  }
+
   for (const validation in validations) {
     switch (validation) {
       case 'minLength':
-        value.length < validations[validation] ? store.dispatch(setMinLengthError(true)) : store.dispatch(setMinLengthError(false));
+        value.length < validations[validation] ? store.dispatch(setMinLengthError({ minLengthError: true })) : store.dispatch(setMinLengthError({ minLengthError: false }));
         break;
       case 'isEmpty':
-        typeof value === 'string' && value !== '' ? store.dispatch(setIsEmpty(false)) : store.dispatch(setIsEmpty(true));
+        typeof value === 'string' && value !== '' ? store.dispatch(setIsEmpty({ isEmpty: false })) : store.dispatch(setIsEmpty({ isEmpty: true }));
         break;
       case 'containsDigitAndLatin':
-        /^[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\][{}|';:/.,?><]*$/.test(value) ? store.dispatch(setContainsDigitAndLatin(false)) : store.dispatch(setContainsDigitAndLatin(true));
+        /^[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\][{}|';:/.,?><]*$/.test(value) ? store.dispatch(setContainsDigitAndLatin({ containsDigitAndLatin: true })) : store.dispatch(setContainsDigitAndLatin({ containsDigitAndLatin: false }));
     }
   }
 

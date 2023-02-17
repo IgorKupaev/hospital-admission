@@ -18,6 +18,7 @@ import type { IAuthFormProps } from '../../interfaces/IAuthFormProps';
 import type { IUser } from '../../interfaces/IUser';
 import { store } from '../../store/store';
 import type { IUseInput } from '../../interfaces/IUseInput';
+import { setIsConfirmAccepted } from '../../store/reducers/validSlice';
 
 interface IAuthFormState {
   token: string
@@ -33,7 +34,11 @@ interface IAuthFormState {
   confirm: IUseInput
   isAuthorized: boolean
   confirmError: boolean
-  authRender: any
+  authRender: {
+    button: string
+    changeAuth: string
+    title: string
+  }
   isDisabled: () => boolean
 }
 
@@ -69,39 +74,46 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
       isConfirmDirty: false,
       password: useInput({
         validations: {
-          isEmpty: false,
+          isEmpty: true,
           minLength: 6,
           containsDigitAndLatin: false
         },
         setValue: (value: string) => {},
         value: '',
         isDirty: false,
-        setIsDirty: (value: boolean) => {}
+        setIsDirty: (value: boolean) => {},
+        name: 'password'
       }),
       login: useInput({
         validations: {
-          isEmpty: false,
+          isEmpty: true,
           minLength: 6,
           containsDigitAndLatin: false
         },
         setValue: (value: string) => {},
         value: '',
         isDirty: false,
-        setIsDirty: (value: boolean) => {}
+        setIsDirty: (value: boolean) => {},
+        name: 'login'
       }),
       confirm: useInput({
         validations: {
-          isEmpty: false,
+          isEmpty: true,
           minLength: 6,
           containsDigitAndLatin: false
         },
         setValue: (value: string) => {},
         value: '',
         isDirty: false,
-        setIsDirty: (value: boolean) => {}
+        setIsDirty: (value: boolean) => {},
+        name: 'confirm'
       }),
       isDisabled: () => true,
-      authRender: {}
+      authRender: {
+        title: '',
+        button: '',
+        changeAuth: ''
+      }
     };
   }
 
@@ -149,6 +161,11 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
 
   passwordOnChange (e: React.ChangeEvent<HTMLInputElement>): void {
     this.state.password.onChange(e.target.value);
+    if (this.state.confirmValue === this.state.passwordValue) {
+      store.dispatch(setIsConfirmAccepted({ isConfirmAccepted: true }));
+    } else if (this.props.renderType !== AuthEnum.login) {
+      store.dispatch(setIsConfirmAccepted({ isConfirmAccepted: false }));
+    }
   }
 
   loginOnBlur (e: React.ChangeEvent<HTMLInputElement>): void {
@@ -169,8 +186,8 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
 
   authFetch (): void {
     if (this.props.renderType === 'login') {
-      store.dispatch(authLogin({ data: { password: this.state.password.value, login: this.state.login.value } })); // temp
-      this.setIsAuthorized(!this.state.isAuthorized); // temp
+      store.dispatch(authLogin({ data: { password: this.state.password.value, login: this.state.login.value } }));
+      this.setIsAuthorized(!this.state.isAuthorized);
     } else {
       if (this.state.confirm.value !== this.state.password.value) {
         this.setConfirmError(true);
@@ -190,26 +207,29 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
         value: this.state.passwordValue,
         setValue: this.setPasswordValue,
         isDirty: this.state.isDirty,
-        setIsDirty: this.setIsDirty
+        setIsDirty: this.setIsDirty,
+        name: 'password'
       }),
       login: useInput({
         validations: initialValidations,
         value: this.state.loginValue,
         setValue: this.setLoginValue,
         isDirty: this.state.isLoginDirty,
-        setIsDirty: this.setIsLoginDirty
+        setIsDirty: this.setIsLoginDirty,
+        name: 'login'
       }),
       confirm: useInput({
         validations: initialValidations,
         value: this.state.confirmValue,
         setValue: this.setConfirmValue,
         isDirty: this.state.isConfirmDirty,
-        setIsDirty: this.setIsConfirmDirty
+        setIsDirty: this.setIsConfirmDirty,
+        name: 'confirm'
       })
     });
   }
 
-  componentDidUpdate (prevProps: any, prevState: any): void {
+  componentDidUpdate (prevProps: IAuthFormProps, prevState: IAuthFormState): void {
     if (prevState.isAuthorized !== this.state.isAuthorized) {
       if (typeof this.state.token === 'string' && this.state.token !== '' && Object.values(this.state.user)[0].length > 0) {
         store.dispatch(authUser({ token: this.state.token, user: this.state.user }));
@@ -234,7 +254,8 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
           value: this.state.passwordValue,
           setValue: this.setPasswordValue,
           isDirty: this.state.isDirty,
-          setIsDirty: this.setIsDirty
+          setIsDirty: this.setIsDirty,
+          name: 'password'
         })
       });
     }
@@ -254,7 +275,8 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
           value: this.state.loginValue,
           setValue: this.setLoginValue,
           isDirty: this.state.isLoginDirty,
-          setIsDirty: this.setIsLoginDirty
+          setIsDirty: this.setIsLoginDirty,
+          name: 'login'
         })
       });
     }
@@ -267,9 +289,21 @@ class AuthForm extends React.Component<IAuthFormProps, IAuthFormState> {
           value: this.state.confirmValue,
           setValue: this.setConfirmValue,
           isDirty: this.state.isConfirmDirty,
-          setIsDirty: this.setIsConfirmDirty
+          setIsDirty: this.setIsConfirmDirty,
+          name: 'confirm'
         })
       });
+    }
+    if (this.props.renderType === AuthEnum.register) {
+      if (prevState.confirmValue !== this.state.confirmValue || prevState.passwordValue !== this.state.passwordValue) {
+        if (this.state.confirmValue === this.state.passwordValue) {
+          store.dispatch(setIsConfirmAccepted({ isConfirmAccepted: true }));
+        } else {
+          store.dispatch(setIsConfirmAccepted({ isConfirmAccepted: false }));
+        }
+      }
+    } else {
+      store.dispatch(setIsConfirmAccepted({ isConfirmAccepted: true }));
     }
   }
 

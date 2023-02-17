@@ -86,7 +86,6 @@ class MainPage extends React.Component<unknown, MainPageState> {
   }
 
   getAdmissionById (id: string): IAdmission {
-    console.log(store.getState().admissionReducer.admissions);
     for (const item of store.getState().admissionReducer.admissions) {
       if (item._id === id) {
         return item;
